@@ -1,3 +1,5 @@
+using AnKuchen.KuchenLayout;
+using AnKuchen.KuchenLayout.Layouter;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine.UI;
@@ -8,6 +10,7 @@ namespace AbcConsole.Internal
     {
         public InputField InputField { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
+        public Layout<AutocompleteItemUiElements> Autocomplete { get; private set; }
 
         public AbcConsoleUiElements(IMapper mapper)
         {
@@ -22,6 +25,20 @@ namespace AbcConsole.Internal
                 mapper.GetChild<LogDetailUiElements>("Log/LogDetail")
             );
             InputField = mapper.Get<InputField>("Input/InputField");
+            Autocomplete = new Layout<AutocompleteItemUiElements>(
+                mapper.GetChild<AutocompleteItemUiElements>("Autocomplete/Item"),
+                new BottomToTopLayouter(2.5f)
+            );
+        }
+
+        public class AutocompleteItemUiElements : IMappedObject
+        {
+            public IMapper Mapper { get; private set; }
+
+            public void Initialize(IMapper mapper)
+            {
+                Mapper = mapper;
+            }
         }
 
         public class LogLineUiElements : IReusableMappedObject

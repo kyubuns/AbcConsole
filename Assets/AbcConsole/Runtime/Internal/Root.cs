@@ -27,6 +27,14 @@ namespace AbcConsole.Internal
                     }));
                 }
             }
+
+            using (var editor = ui.Autocomplete.Edit())
+            {
+                for (var i = 0; i < 5; ++i)
+                {
+                    var a = editor.Create();
+                }
+            }
         }
     }
 }
