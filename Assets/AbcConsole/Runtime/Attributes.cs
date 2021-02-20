@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
-public class Attributes : MonoBehaviour
+namespace AbcConsole
 {
-    // Start is called before the first frame update
-    void Start()
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AbcCommandAttribute : Attribute
     {
-        
-    }
+        public string Summary { get; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public AbcCommandAttribute()
+        {
+            Summary = string.Empty;
+        }
+
+        public AbcCommandAttribute(string summary)
+        {
+            Summary = summary;
+        }
     }
 }
