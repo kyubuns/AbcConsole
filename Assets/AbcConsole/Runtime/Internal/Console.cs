@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -24,9 +23,11 @@ namespace AbcConsole.Internal
         private static readonly Color AssertColor = new Color32(255, 0, 0, 32);
         private Coroutine _clearAutocompleteCoroutine;
         private bool _freezeAutocomplete;
-        private int? _autocompleteSelecting = null;
+        private int? _autocompleteSelecting;
         private string _autocompleteSelectingOriginalInput;
         private DebugCommand[] _autocompleteCache;
+        private float _prevFrameKeyboardHeight;
+        private float _stableKeyboardHeight;
 
         public void OnEnable()
         {
@@ -89,9 +90,26 @@ namespace AbcConsole.Internal
             }
         }
 
+        private float GetKeyboardHeight()
+        {
+            // たまに1フレだけ荒ぶることがあるので2フレ連続しないと値を採用しない
+            var keyboardHeight = KeyboardRect.GetHeight();
+            if (Mathf.Abs(_prevFrameKeyboardHeight - keyboardHeight) < 0.0001f)
+            {
+                // 2フレ連続で同じ値ならオッケー
+                _stableKeyboardHeight = keyboardHeight;
+            }
+            else
+            {
+                _prevFrameKeyboardHeight = keyboardHeight;
+            }
+
+            return _stableKeyboardHeight;
+        }
+
         private void UpdateViewArea()
         {
-            var keyboardHeight = KeyboardRect.GetHeight();
+            var keyboardHeight = GetKeyboardHeight();
             if (Mathf.Abs(keyboardHeight - _updatedKeyboardHeight) < 0.0001f) return;
 
             _updatedKeyboardHeight = keyboardHeight;
