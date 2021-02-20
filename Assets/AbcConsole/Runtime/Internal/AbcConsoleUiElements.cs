@@ -9,6 +9,7 @@ namespace AbcConsole.Internal
     public class AbcConsoleUiElements
     {
         public Console Console { get; private set; }
+        public Button TriggerButton { get; private set; }
         public InputField InputField { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
         public Layout<AutocompleteItemUiElements> Autocomplete { get; private set; }
@@ -21,6 +22,7 @@ namespace AbcConsole.Internal
         private void Initialize(IMapper mapper)
         {
             Console = mapper.Get<Console>("Console");
+            TriggerButton = mapper.Get<Button>("TriggerButton");
             Log = new VerticalList<LogLineUiElements, LogDetailUiElements>(
                 mapper.Get<ScrollRect>("Log"),
                 mapper.GetChild<LogLineUiElements>("Log/LogLine"),

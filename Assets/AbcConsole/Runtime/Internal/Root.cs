@@ -14,6 +14,9 @@ namespace AbcConsole.Internal
 
             _ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
 
+            _ui.TriggerButton.onClick.AddListener(OnClickTriggerButton);
+
+            // Test
             using (var editor = _ui.Log.Edit())
             {
                 for (var i = 0; i < 500; ++i)

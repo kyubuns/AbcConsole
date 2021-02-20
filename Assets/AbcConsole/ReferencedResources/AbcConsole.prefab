@@ -356,18 +356,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6672906636242158352}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8170229565798249335}
-        m_MethodName: OnClickTriggerButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1829156120545142310
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5675475427345303146}
   - component: {fileID: 8170229565798249335}
+  - component: {fileID: 2244211959391475033}
   m_Layer: 0
   m_Name: AbcConsole
   m_TagString: Untagged
@@ -916,6 +906,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 904e05e6b51a44334a6147b6d5ca3b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2244211959391475033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312187036266123277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f054629ee86842fe9436b6eea3a643b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editorOnly: 1
+  keyCode: 96
 --- !u!1 &4623090400034289284
 GameObject:
   m_ObjectHideFlags: 0
