@@ -20,6 +20,10 @@ namespace AbcConsole.Internal
                     editor.Contents.Add(new UIFactory<AbcConsoleUiElements.LogLineUiElements>(x =>
                     {
                         x.Text.text = $"Log {i1}";
+                        x.Button.onClick.AddListener(() =>
+                        {
+                            ui.InputField.text = x.Text.text;
+                        });
                     }));
                 }
             }
