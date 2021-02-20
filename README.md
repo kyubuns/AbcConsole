@@ -16,6 +16,11 @@ UNDER DEVELOPMENT
 
 MIT License (see [LICENSE](LICENSE))
 
+## SpecialThanks
+
+- nkjzm/UnityMobileKeyboardSample
+  - https://github.com/nkjzm/UnityMobileKeyboardSample
+
 ## Buy me a coffee
 
 Are you enjoying save time?  
