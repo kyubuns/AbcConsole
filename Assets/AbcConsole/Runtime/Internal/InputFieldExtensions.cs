@@ -9,8 +9,6 @@ namespace AbcConsole.Internal
     {
         public static void Focus(this InputField inputField)
         {
-            var go = new GameObject("AbcConsoleCoroutineRunner");
-
             IEnumerator Internal()
             {
                 yield return new WaitForEndOfFrame();
@@ -20,17 +18,13 @@ namespace AbcConsole.Internal
                 }
                 EventSystem.current.SetSelectedGameObject(inputField.gameObject);
                 inputField.ActivateInputField();
-                Object.Destroy(go);
             }
 
-            var coroutineRunner = go.AddComponent<CoroutineRunner>();
-            coroutineRunner.StartCoroutine(Internal());
+            Utils.StartCoroutine(Internal());
         }
 
         public static void FocusAndMoveToEnd(this InputField inputField)
         {
-            var go = new GameObject("AbcConsoleCoroutineRunner");
-
             IEnumerator Internal()
             {
                 yield return new WaitForEndOfFrame();
@@ -44,11 +38,9 @@ namespace AbcConsole.Internal
                 yield return new WaitForEndOfFrame();
 
                 inputField.MoveTextEnd(false);
-                Object.Destroy(go);
             }
 
-            var coroutineRunner = go.AddComponent<CoroutineRunner>();
-            coroutineRunner.StartCoroutine(Internal());
+            Utils.StartCoroutine(Internal());
         }
     }
 
