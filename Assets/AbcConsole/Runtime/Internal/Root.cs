@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace AbcConsole.Internal
 {
-    public class Root : MonoBehaviour
+    public class Root : MonoBehaviour, IRoot
     {
-        public static Root CurrentInstance { get; private set; }
+        public static IRoot CurrentInstance => _currentInstance;
+        private static Root _currentInstance;
 
         public IReadOnlyList<Log> Logs => _logs;
         public int LogCount { get; private set; }
@@ -21,7 +22,7 @@ namespace AbcConsole.Internal
         {
             DontDestroyOnLoad(gameObject);
 
-            CurrentInstance = this;
+            _currentInstance = this;
             Application.logMessageReceivedThreaded += ReceiveLogMessage;
 
             _ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
@@ -30,7 +31,7 @@ namespace AbcConsole.Internal
 
         public void OnDestroy()
         {
-            if (CurrentInstance == this) CurrentInstance = null;
+            if (_currentInstance == this) _currentInstance = null;
             Application.logMessageReceivedThreaded -= ReceiveLogMessage;
         }
 
@@ -65,6 +66,11 @@ namespace AbcConsole.Internal
                 _ui.InputRoot.SetActive(false);
             }
         }
+
+        public void ClearLogs()
+        {
+            _logs.Clear();
+        }
     }
 
     public enum ConsoleState
@@ -72,6 +78,15 @@ namespace AbcConsole.Internal
         None,
         Full,
         Mini,
+    }
+
+    public interface IRoot
+    {
+        IReadOnlyList<Log> Logs { get; }
+        int LogCount { get; }
+        ConsoleState State { get; }
+
+        void ClearLogs();
     }
 
     public class Log

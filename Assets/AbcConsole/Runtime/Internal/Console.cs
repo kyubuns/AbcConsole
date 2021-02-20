@@ -20,7 +20,7 @@ namespace AbcConsole.Internal
 
         public void OnEnable()
         {
-            Debug.Log($"Console.OnEnable");
+            Debug.Log("Console.OnEnable");
 
             if (_root == null)
             {
