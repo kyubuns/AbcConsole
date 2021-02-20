@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using AnKuchen.Map;
 using UnityEngine;
@@ -115,6 +116,15 @@ namespace AbcConsole.Internal
         {
             MethodInfo = methodInfo;
             Attribute = attribute;
+        }
+
+        public string CreateSummaryText()
+        {
+            var parameters = MethodInfo.GetParameters().Select(x => $"({x.ParameterType.ToString().Split('.').Last()}){x.Name}");
+
+            var summary = "";
+            if (!string.IsNullOrWhiteSpace(Attribute.Summary)) summary = $" - {Attribute.Summary}";
+            return $"{MethodInfo.Name} {string.Join(" ", parameters)}{summary}";
         }
     }
 }

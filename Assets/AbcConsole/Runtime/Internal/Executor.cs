@@ -66,5 +66,10 @@ namespace AbcConsole.Internal
             method.MethodInfo.Invoke(null, parameters.ToArray());
             return true;
         }
+
+        public DebugCommand[] GetAutocomplete(string text)
+        {
+            return _debugCommands.ToArray();
+        }
     }
 }

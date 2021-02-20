@@ -22,6 +22,7 @@ namespace AbcConsole.Internal
         private static readonly Color ErrorColor = new Color32(255, 0, 0, 32);
         private static readonly Color ExceptionColor = new Color32(255, 0, 0, 32);
         private static readonly Color AssertColor = new Color32(255, 0, 0, 32);
+        private Coroutine _clearAutocompleteCoroutine;
 
         public void OnEnable()
         {
@@ -43,27 +44,13 @@ namespace AbcConsole.Internal
                 _ui.EnterButton.onClick.AddListener(OnClickEnterButton);
                 _ui.PasteButton.onClick.AddListener(OnClickPasteButton);
                 _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
+                _ui.InputField.onValueChanged.AddListener(OnInputFieldValueChanged);
                 _ui.InputField.onValidateInput += (text, index, addedChar) =>
                 {
                     if (addedChar == '`') return '\0';
                     return addedChar;
                 };
             }
-
-            /*
-            using (var editor = _ui.Autocomplete.Edit())
-            {
-                for (var i = 0; i < 5; ++i)
-                {
-                    var a = editor.Create();
-                    a.Text.text = $"Autocomplete {i}";
-                    a.Button.onClick.AddListener(() =>
-                    {
-                        _ui.InputField.text = a.Text.text;
-                    });
-                }
-            }
-            */
 
             _ui.InputField.Focus();
         }
@@ -164,6 +151,38 @@ namespace AbcConsole.Internal
             {
                 OnClickEnterButton();
                 _ui.InputField.Focus();
+            }
+
+            IEnumerator ClearAutocomplete()
+            {
+                // Buttonのクリック判定を出すために待つ
+                yield return new WaitForSecondsRealtime(0.2f);
+                using (_ui.Autocomplete.Edit())
+                {
+                }
+                _clearAutocompleteCoroutine = null;
+            }
+
+            _clearAutocompleteCoroutine = StartCoroutine(ClearAutocomplete());
+        }
+
+        private void OnInputFieldValueChanged(string text)
+        {
+            var commands = _root.Executor.GetAutocomplete(text);
+
+            using (var editor = _ui.Autocomplete.Edit())
+            {
+                foreach(var command in commands)
+                {
+                    var a = editor.Create();
+                    a.Text.text = command.CreateSummaryText();
+                    a.Button.onClick.AddListener(() =>
+                    {
+                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
+                        _ui.InputField.text = command.MethodInfo.Name;
+                        _ui.InputField.Focus();
+                    });
+                }
             }
         }
 
