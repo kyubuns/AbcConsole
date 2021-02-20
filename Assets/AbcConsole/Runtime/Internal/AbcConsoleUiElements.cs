@@ -31,7 +31,7 @@ namespace AbcConsole.Internal
             InputField = mapper.Get<InputField>("Input/InputField");
             Autocomplete = new Layout<AutocompleteItemUiElements>(
                 mapper.GetChild<AutocompleteItemUiElements>("Autocomplete/Item"),
-                new BottomToTopLayouter(2.5f)
+                new BottomToTopLayouter(0f)
             );
         }
 
