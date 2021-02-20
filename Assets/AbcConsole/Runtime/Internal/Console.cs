@@ -30,6 +30,8 @@ namespace AbcConsole.Internal
             if (_ui == null)
             {
                 _ui = new AbcConsoleUiElements(GetComponentInParent<UICache>());
+                _ui.EnterButton.onClick.AddListener(() => OnClickEnterButton());
+                _ui.PasteButton.onClick.AddListener(() => OnClickPasteButton());
             }
 
             /*
@@ -75,7 +77,7 @@ namespace AbcConsole.Internal
                         {
                             x.Button.onClick.AddListener(() =>
                             {
-                                _ui.InputField.text = log.Condition;
+                                _ui.InputField.text = log.Condition.TrimStart('>').Trim();
                             });
                         }
                         else if (_selectingLogId == log.Id)
@@ -110,6 +112,18 @@ namespace AbcConsole.Internal
                     }
                 }
             }
+        }
+
+        public void OnClickEnterButton()
+        {
+            var text = _ui.InputField.text.Trim();
+            _ui.InputField.text = "";
+            Debug.Log($"> {text}");
+        }
+
+        public void OnClickPasteButton()
+        {
+            _ui.InputField.text = GUIUtility.systemCopyBuffer;
         }
     }
 }

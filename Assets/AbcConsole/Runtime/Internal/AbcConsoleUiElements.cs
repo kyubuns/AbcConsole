@@ -14,6 +14,8 @@ namespace AbcConsole.Internal
         public GameObject InputRoot { get; private set; }
         public Button TriggerButton { get; private set; }
         public InputField InputField { get; private set; }
+        public Button EnterButton { get; private set; }
+        public Button PasteButton { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
         public Layout<AutocompleteItemUiElements> Autocomplete { get; private set; }
 
@@ -38,6 +40,8 @@ namespace AbcConsole.Internal
                 mapper.GetChild<LogDetailUiElements>("Log/LogDetail")
             );
             InputField = mapper.Get<InputField>("Input/InputField");
+            EnterButton = mapper.Get<Button>("Input/EnterButton");
+            PasteButton = mapper.Get<Button>("Input/PasteButton");
             Autocomplete = new Layout<AutocompleteItemUiElements>(
                 mapper.GetChild<AutocompleteItemUiElements>("Autocomplete/Item"),
                 new BottomToTopLayouter(0f)
