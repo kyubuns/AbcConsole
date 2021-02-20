@@ -10,6 +10,8 @@ namespace AbcConsole.Internal
     public class AbcConsoleUiElements
     {
         public Console Console { get; private set; }
+        public GameObject LogRoot { get; private set; }
+        public GameObject InputRoot { get; private set; }
         public Button TriggerButton { get; private set; }
         public InputField InputField { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
@@ -27,6 +29,8 @@ namespace AbcConsole.Internal
             scrollRect.verticalScrollbar = mapper.Get<Scrollbar>("Log/VerticalScrollbar");
 
             Console = mapper.Get<Console>("Console");
+            LogRoot = mapper.Get("ViewArea/Log");
+            InputRoot = mapper.Get("ViewArea/Input");
             TriggerButton = mapper.Get<Button>("TriggerButton");
             Log = new VerticalList<LogLineUiElements, LogDetailUiElements>(
                 scrollRect,

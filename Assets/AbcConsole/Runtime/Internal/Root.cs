@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
 
@@ -10,13 +9,13 @@ namespace AbcConsole.Internal
         public static Root CurrentInstance { get; private set; }
 
         public IReadOnlyList<Log> Logs => _logs;
-        public int LogCount => _logCount;
+        public int LogCount { get; private set; }
+        public ConsoleState State { get; private set; } = ConsoleState.None;
 
         private const int MaxLogSize = 1000;
 
         private AbcConsoleUiElements _ui;
         private readonly List<Log> _logs = new List<Log>(MaxLogSize);
-        private int _logCount;
 
         public void Awake()
         {
@@ -37,15 +36,42 @@ namespace AbcConsole.Internal
 
         private void ReceiveLogMessage(string condition, string stacktrace, LogType type)
         {
-            _logs.Add(new Log(_logCount, condition, stacktrace, type));
-            _logCount++;
-            while(_logs.Count > MaxLogSize) _logs.RemoveAt(0);
+            _logs.Add(new Log(LogCount, condition, stacktrace, type));
+            LogCount++;
+            while (_logs.Count > MaxLogSize) _logs.RemoveAt(0);
         }
 
         public void OnClickTriggerButton()
         {
-            _ui.Console.gameObject.SetActive(!_ui.Console.gameObject.activeSelf);
+            if (State == ConsoleState.None)
+            {
+                State = ConsoleState.Full;
+                _ui.Console.gameObject.SetActive(true);
+                _ui.LogRoot.SetActive(true);
+                _ui.InputRoot.SetActive(true);
+            }
+            else if (State == ConsoleState.Full)
+            {
+                State = ConsoleState.Mini;
+                _ui.Console.gameObject.SetActive(true);
+                _ui.LogRoot.SetActive(false);
+                _ui.InputRoot.SetActive(true);
+            }
+            else if (State == ConsoleState.Mini)
+            {
+                State = ConsoleState.None;
+                _ui.Console.gameObject.SetActive(false);
+                _ui.LogRoot.SetActive(false);
+                _ui.InputRoot.SetActive(false);
+            }
         }
+    }
+
+    public enum ConsoleState
+    {
+        None,
+        Full,
+        Mini,
     }
 
     public class Log

@@ -50,6 +50,7 @@ namespace AbcConsole.Internal
 
         public void Update()
         {
+            if (!_ui.LogRoot.activeSelf) return;
             if (!_forceUpdate && _logUpdatedCount == _root.LogCount) return;
             _logUpdatedCount = _root.LogCount;
             _forceUpdate = false;
