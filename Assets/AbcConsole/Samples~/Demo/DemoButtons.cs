@@ -10,9 +10,14 @@ namespace AbcConsole.Demo
             StartCoroutine(PrintLog());
         }
 
-        private IEnumerator PrintLog()
+        public void OnClickPrintErrorLogButton()
         {
-            for (var i = 0; i < 50; ++i)
+            Debug.LogError("Test Error Log!");
+        }
+
+        private static IEnumerator PrintLog()
+        {
+            for (var i = 0; i < 30; ++i)
             {
                 Debug.Log($"PrintLog {i}");
                 yield return new WaitForSeconds(0.1f);

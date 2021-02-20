@@ -67,12 +67,14 @@ namespace AbcConsole.Internal
         {
             public IMapper Mapper { get; private set; }
             public Button Button { get; private set; }
+            public Image Image { get; private set; }
             public Text Text { get; private set; }
 
             public void Initialize(IMapper mapper)
             {
                 Mapper = mapper;
                 Button = mapper.Get<Button>();
+                Image = mapper.Get<Image>();
                 Text = mapper.Get<Text>("Text");
             }
 
@@ -89,10 +91,12 @@ namespace AbcConsole.Internal
         public class LogDetailUiElements : IReusableMappedObject
         {
             public IMapper Mapper { get; private set; }
+            public Button CopyButton { get; private set; }
 
             public void Initialize(IMapper mapper)
             {
                 Mapper = mapper;
+                CopyButton = mapper.Get<Button>("CopyButton");
             }
 
             public void Activate()
@@ -101,6 +105,7 @@ namespace AbcConsole.Internal
 
             public void Deactivate()
             {
+                CopyButton.onClick.RemoveAllListeners();
             }
         }
     }
