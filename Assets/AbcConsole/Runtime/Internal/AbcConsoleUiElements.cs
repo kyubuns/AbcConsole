@@ -2,6 +2,7 @@ using AnKuchen.KuchenLayout;
 using AnKuchen.KuchenLayout.Layouter;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace AbcConsole.Internal
@@ -21,10 +22,14 @@ namespace AbcConsole.Internal
 
         private void Initialize(IMapper mapper)
         {
+            var scrollRect = mapper.Get<ScrollRect>("Log");
+            scrollRect.content = mapper.Get<RectTransform>("Log/Content");
+            scrollRect.verticalScrollbar = mapper.Get<Scrollbar>("Log/VerticalScrollbar");
+
             Console = mapper.Get<Console>("Console");
             TriggerButton = mapper.Get<Button>("TriggerButton");
             Log = new VerticalList<LogLineUiElements, LogDetailUiElements>(
-                mapper.Get<ScrollRect>("Log"),
+                scrollRect,
                 mapper.GetChild<LogLineUiElements>("Log/LogLine"),
                 mapper.GetChild<LogDetailUiElements>("Log/LogDetail")
             );
