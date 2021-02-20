@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AbcConsole
+namespace AbcConsole.Internal
 {
     public class TriggerButton : MonoBehaviour
     {

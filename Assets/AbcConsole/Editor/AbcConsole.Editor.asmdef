@@ -1,6 +1,7 @@
 {
     "name": "AbcConsole.Editor",
     "references": [
+        "GUID:93bae4339d8a9468d8b72636ecb67cf5",
         "GUID:f48a88687021943959a850c81ac6e5b5"
     ],
     "includePlatforms": [

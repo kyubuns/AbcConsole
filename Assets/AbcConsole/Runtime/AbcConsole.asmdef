@@ -1,3 +1,15 @@
-﻿{
-	"name": "AbcConsole"
+{
+    "name": "AbcConsole",
+    "references": [
+        "GUID:f48a88687021943959a850c81ac6e5b5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
