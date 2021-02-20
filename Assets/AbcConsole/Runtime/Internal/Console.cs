@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -57,6 +59,19 @@ namespace AbcConsole.Internal
                 }
             }
             */
+
+            ActivateInputField();
+        }
+
+        private void ActivateInputField()
+        {
+            IEnumerator ActivateInputFieldInternal()
+            {
+                yield return new WaitForEndOfFrame();
+                _ui.InputField.ActivateInputField();
+            }
+
+            StartCoroutine(ActivateInputFieldInternal());
         }
 
         public void Update()
@@ -147,13 +162,14 @@ namespace AbcConsole.Internal
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log("OnClickEnterButton");
                 OnClickEnterButton();
+                ActivateInputField();
             }
 
             if (_ui.InputField.touchScreenKeyboard?.status == TouchScreenKeyboard.Status.Done)
             {
                 OnClickEnterButton();
+                ActivateInputField();
             }
         }
 
