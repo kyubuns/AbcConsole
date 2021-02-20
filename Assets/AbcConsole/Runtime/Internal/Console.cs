@@ -150,6 +150,11 @@ namespace AbcConsole.Internal
                 Debug.Log("OnClickEnterButton");
                 OnClickEnterButton();
             }
+
+            if (_ui.InputField.touchScreenKeyboard?.status == TouchScreenKeyboard.Status.Done)
+            {
+                OnClickEnterButton();
+            }
         }
 
         public void OnClickEnterButton()
