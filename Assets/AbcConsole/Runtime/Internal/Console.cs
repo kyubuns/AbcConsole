@@ -184,7 +184,7 @@ namespace AbcConsole.Internal
             IEnumerator ClearAutocomplete()
             {
                 // Buttonのクリック判定を出すために待つ
-                yield return new WaitForSecondsRealtime(0.2f);
+                yield return new WaitForEndOfFrame();
                 using (_ui.Autocomplete.Edit())
                 {
                 }

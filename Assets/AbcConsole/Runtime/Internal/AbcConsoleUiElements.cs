@@ -53,13 +53,13 @@ namespace AbcConsole.Internal
         public class AutocompleteItemUiElements : IReusableMappedObject
         {
             public IMapper Mapper { get; private set; }
-            public Button Button { get; private set; }
+            public OnPointerDownButton Button { get; private set; }
             public Text Text { get; private set; }
 
             public void Initialize(IMapper mapper)
             {
                 Mapper = mapper;
-                Button = mapper.Get<Button>();
+                Button = mapper.Get<OnPointerDownButton>();
                 Text = mapper.Get<Text>("Text");
             }
 
