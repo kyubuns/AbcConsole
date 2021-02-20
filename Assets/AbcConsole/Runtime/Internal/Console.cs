@@ -43,6 +43,11 @@ namespace AbcConsole.Internal
                 _ui.EnterButton.onClick.AddListener(OnClickEnterButton);
                 _ui.PasteButton.onClick.AddListener(OnClickPasteButton);
                 _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
+                _ui.InputField.onValidateInput += (text, index, addedChar) =>
+                {
+                    if (addedChar == '`') return '\0';
+                    return addedChar;
+                };
             }
 
             /*
@@ -60,18 +65,7 @@ namespace AbcConsole.Internal
             }
             */
 
-            ActivateInputField();
-        }
-
-        private void ActivateInputField()
-        {
-            IEnumerator ActivateInputFieldInternal()
-            {
-                yield return new WaitForEndOfFrame();
-                _ui.InputField.ActivateInputField();
-            }
-
-            StartCoroutine(ActivateInputFieldInternal());
+            _ui.InputField.Focus(this);
         }
 
         public void Update()
@@ -163,13 +157,13 @@ namespace AbcConsole.Internal
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnClickEnterButton();
-                ActivateInputField();
+                _ui.InputField.Focus(this);
             }
 
             if (_ui.InputField.touchScreenKeyboard?.status == TouchScreenKeyboard.Status.Done)
             {
                 OnClickEnterButton();
-                ActivateInputField();
+                _ui.InputField.Focus(this);
             }
         }
 
