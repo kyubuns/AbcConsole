@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using AnKuchen.Map;
 using UnityEngine;
@@ -12,10 +10,10 @@ namespace AbcConsole.Internal
         public static IRoot CurrentInstance => _currentInstance;
         private static Root _currentInstance;
 
-        public List<DebugCommand> DebugCommands { get; private set; }
         public IReadOnlyList<Log> Logs => _logs;
         public int LogCount { get; private set; }
         public ConsoleState State { get; private set; } = ConsoleState.None;
+        public Executor Executor { get; private set; }
 
         private const int MaxLogSize = 1000;
 
@@ -32,12 +30,7 @@ namespace AbcConsole.Internal
             _ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
             _ui.TriggerButton.onClick.AddListener(OnClickTriggerButton);
 
-            var allMethods = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .SelectMany(x => x.GetMethods(BindingFlags.Public | BindingFlags.Static))
-                .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(AbcCommandAttribute)));
-
-            DebugCommands = allMethods.Select(x => new DebugCommand(x, x.GetCustomAttribute<AbcCommandAttribute>())).ToList();
+            Executor = new Executor();
         }
 
         public void OnDestroy()
@@ -93,11 +86,7 @@ namespace AbcConsole.Internal
 
     public interface IRoot
     {
-        List<DebugCommand> DebugCommands { get; }
         IReadOnlyList<Log> Logs { get; }
-        int LogCount { get; }
-        ConsoleState State { get; }
-
         void ClearLogs();
     }
 

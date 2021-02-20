@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -34,8 +30,9 @@ namespace AbcConsole.Internal
             if (_ui == null)
             {
                 _ui = new AbcConsoleUiElements(GetComponentInParent<UICache>());
-                _ui.EnterButton.onClick.AddListener(() => OnClickEnterButton());
-                _ui.PasteButton.onClick.AddListener(() => OnClickPasteButton());
+                _ui.EnterButton.onClick.AddListener(OnClickEnterButton);
+                _ui.PasteButton.onClick.AddListener(OnClickPasteButton);
+                _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
             }
 
             /*
@@ -55,6 +52,11 @@ namespace AbcConsole.Internal
         }
 
         public void Update()
+        {
+            UpdateLogs();
+        }
+
+        private void UpdateLogs()
         {
             if (!_ui.LogRoot.activeSelf) return;
             if (!_forceUpdate && _logUpdatedCount == _root.LogCount) return;
@@ -118,6 +120,15 @@ namespace AbcConsole.Internal
             }
         }
 
+        private void OnInputFieldEndEdit()
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("OnClickEnterButton");
+                OnClickEnterButton();
+            }
+        }
+
         public void OnClickEnterButton()
         {
             var text = _ui.InputField.text.Trim();
@@ -125,48 +136,7 @@ namespace AbcConsole.Internal
             if (string.IsNullOrWhiteSpace(text)) return;
 
             Debug.Log($"> {text}");
-
-            var input = text.Split(' ').Select(x => x.Trim()).ToArray();
-
-            var method = _root.DebugCommands.FirstOrDefault(x => x.MethodInfo.Name == input[0]);
-            if (method == null)
-            {
-                Debug.Log($"{input[0]} is not found");
-                return;
-            }
-
-            var parameters = new List<object>();
-            var args = input.Skip(1).ToList();
-            var parameterInfos = method.MethodInfo.GetParameters();
-            if (parameterInfos.Length != args.Count)
-            {
-                Debug.Log($"{method.MethodInfo.Name} needs {parameterInfos.Length} parameters");
-                return;
-            }
-
-            foreach (var parameterInfo in parameterInfos)
-            {
-                var type = parameterInfo.ParameterType;
-                if (type.IsPrimitive)
-                {
-                    var value = args.Count > 0
-                        ? TypeDescriptor.GetConverter(type).ConvertFromString(args[0])
-                        : Activator.CreateInstance(type);
-                    parameters.Add(value);
-                }
-                else if (type == typeof(string))
-                {
-                    parameters.Add(args.Count > 0 ? args[0] : default);
-                }
-                else
-                {
-                    Debug.Log($"parse error: {type}");
-                }
-
-                if (args.Count > 0) args.RemoveAt(0);
-            }
-
-            method.MethodInfo.Invoke(null, parameters.ToArray());
+            _root.Executor.ExecuteMethod(text);
         }
 
         public void OnClickPasteButton()
