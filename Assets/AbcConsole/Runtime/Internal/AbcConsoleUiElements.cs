@@ -18,6 +18,7 @@ namespace AbcConsole.Internal
         public Button PasteButton { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
         public Layout<AutocompleteItemUiElements> Autocomplete { get; private set; }
+        public RectTransform ViewArea { get; set; }
 
         public AbcConsoleUiElements(IMapper mapper)
         {
@@ -46,6 +47,7 @@ namespace AbcConsole.Internal
                 mapper.GetChild<AutocompleteItemUiElements>("Autocomplete/Item"),
                 new BottomToTopLayouter(0f)
             );
+            ViewArea = mapper.Get<RectTransform>("ViewArea");
         }
 
         public class AutocompleteItemUiElements : IReusableMappedObject

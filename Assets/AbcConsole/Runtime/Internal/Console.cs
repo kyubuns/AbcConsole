@@ -1,16 +1,19 @@
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AbcConsole.Internal
 {
     public class Console : MonoBehaviour
     {
         private Root _root;
+        private RectTransform _canvasRect;
         private AbcConsoleUiElements _ui;
         private int _logUpdatedCount;
         private int? _selectingLogId;
         private bool _forceUpdate;
+        private float _updatedKeyboardHeight;
 
         private static readonly Color LogColor = new Color32(0, 0, 0, 0);
         private static readonly Color WarningColor = new Color32(255, 255, 0, 32);
@@ -25,6 +28,11 @@ namespace AbcConsole.Internal
             if (_root == null)
             {
                 _root = GetComponentInParent<Root>();
+            }
+
+            if (_canvasRect == null)
+            {
+                _canvasRect = GetComponentInParent<CanvasScaler>().GetComponent<RectTransform>();
             }
 
             if (_ui == null)
@@ -53,7 +61,22 @@ namespace AbcConsole.Internal
 
         public void Update()
         {
+            UpdateViewArea();
             UpdateLogs();
+        }
+
+        private void UpdateViewArea()
+        {
+            var keyboardHeight = KeyboardRect.GetHeight();
+            if (Mathf.Abs(keyboardHeight - _updatedKeyboardHeight) < 0.0001f) return;
+
+            _updatedKeyboardHeight = keyboardHeight;
+            Debug.Log($"Update Height {_updatedKeyboardHeight}");
+
+            var resolutionHeight = _canvasRect.sizeDelta.y;
+            var rate = resolutionHeight / Screen.height;
+            var margin = keyboardHeight * rate;
+            _ui.ViewArea.sizeDelta = new Vector2(0, -margin);
         }
 
         private void UpdateLogs()
