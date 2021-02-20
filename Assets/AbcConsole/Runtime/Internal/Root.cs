@@ -6,13 +6,15 @@ namespace AbcConsole.Internal
 {
     public class Root : MonoBehaviour
     {
+        private AbcConsoleUiElements _ui;
+
         public void Awake()
         {
             DontDestroyOnLoad(gameObject);
 
-            var ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
+            _ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
 
-            using (var editor = ui.Log.Edit())
+            using (var editor = _ui.Log.Edit())
             {
                 for (var i = 0; i < 500; ++i)
                 {
@@ -22,19 +24,24 @@ namespace AbcConsole.Internal
                         x.Text.text = $"Log {i1}";
                         x.Button.onClick.AddListener(() =>
                         {
-                            ui.InputField.text = x.Text.text;
+                            _ui.InputField.text = x.Text.text;
                         });
                     }));
                 }
             }
 
-            using (var editor = ui.Autocomplete.Edit())
+            using (var editor = _ui.Autocomplete.Edit())
             {
                 for (var i = 0; i < 5; ++i)
                 {
                     var a = editor.Create();
                 }
             }
+        }
+
+        public void OnClickTriggerButton()
+        {
+            _ui.Console.gameObject.SetActive(!_ui.Console.gameObject.activeSelf);
         }
     }
 }
