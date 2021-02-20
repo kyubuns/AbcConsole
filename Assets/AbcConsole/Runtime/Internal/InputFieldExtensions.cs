@@ -1,20 +1,34 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace AbcConsole.Internal
 {
     public static class InputFieldExtensions
     {
-        public static void Focus(this InputField inputField, MonoBehaviour coroutineRunner)
+        public static void Focus(this InputField inputField)
         {
-            IEnumerator ActivateInputFieldInternal()
+            var go = new GameObject("AbcConsoleCoroutineRunner");
+
+            IEnumerator Internal()
             {
                 yield return new WaitForEndOfFrame();
+                if (TouchScreenKeyboard.isSupported)
+                {
+                    TouchScreenKeyboard.Open(string.Empty, TouchScreenKeyboardType.ASCIICapable);
+                }
+                EventSystem.current.SetSelectedGameObject(inputField.gameObject);
                 inputField.ActivateInputField();
+                Object.Destroy(go);
             }
 
-            coroutineRunner.StartCoroutine(ActivateInputFieldInternal());
+            var coroutineRunner = go.AddComponent<CoroutineRunner>();
+            coroutineRunner.StartCoroutine(Internal());
         }
+    }
+
+    public class CoroutineRunner : MonoBehaviour
+    {
     }
 }

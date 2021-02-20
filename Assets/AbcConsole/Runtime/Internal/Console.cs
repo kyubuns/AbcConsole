@@ -65,7 +65,7 @@ namespace AbcConsole.Internal
             }
             */
 
-            _ui.InputField.Focus(this);
+            _ui.InputField.Focus();
         }
 
         public void Update()
@@ -157,13 +157,13 @@ namespace AbcConsole.Internal
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnClickEnterButton();
-                _ui.InputField.Focus(this);
+                _ui.InputField.Focus();
             }
 
             if (_ui.InputField.touchScreenKeyboard?.status == TouchScreenKeyboard.Status.Done)
             {
                 OnClickEnterButton();
-                _ui.InputField.Focus(this);
+                _ui.InputField.Focus();
             }
         }
 
