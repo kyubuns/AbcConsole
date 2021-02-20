@@ -14,7 +14,7 @@ namespace AbcConsole.Internal
 
             using (var editor = ui.Log.Edit())
             {
-                for (var i = 0; i < 5; ++i)
+                for (var i = 0; i < 500; ++i)
                 {
                     var i1 = i;
                     editor.Contents.Add(new UIFactory<AbcConsoleUiElements.LogLineUiElements>(x =>
