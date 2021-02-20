@@ -23,9 +23,9 @@ namespace AbcConsole.Demo
         }
 
         [AbcCommand()]
-        public static void SetBackgroundColor(byte r, byte g, byte b)
+        public static void SetBackgroundColor(int r, int g, int b)
         {
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color32(r, g, b, 255);
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color32((byte) r, (byte) g, (byte) b, 255);
         }
     }
 }
