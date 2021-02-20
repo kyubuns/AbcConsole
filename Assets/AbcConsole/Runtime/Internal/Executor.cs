@@ -76,14 +76,20 @@ namespace AbcConsole.Internal
             var methodsStartsWith = _debugCommands
                 .Where(x => x.LowerMethodName.StartsWith(methodName))
                 .OrderBy(x => x.MethodInfo.Name.Length)
-                .ThenBy(x => x.MethodInfo.Name);
+                .ThenBy(x => x.MethodInfo.Name)
+                .ToArray();
+
+            if (methodsStartsWith.Length >= Root.MaxAutocompleteSize)
+            {
+                return methodsStartsWith.Take(Root.MaxAutocompleteSize).ToArray();
+            }
+
             var methodsContains = _debugCommands
                 .Where(x => x.LowerMethodName.Contains(methodName))
                 .OrderBy(x => x.MethodInfo.Name.Length)
                 .ThenBy(x => x.MethodInfo.Name);
 
-            var methods = methodsStartsWith.Concat(methodsContains).Distinct().Take(Root.MaxAutocompleteSize);
-            return methods.ToArray();
+            return methodsStartsWith.Concat(methodsContains).Distinct().Take(Root.MaxAutocompleteSize).ToArray();
         }
     }
 }

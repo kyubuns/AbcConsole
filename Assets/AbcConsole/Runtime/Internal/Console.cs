@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -22,6 +23,10 @@ namespace AbcConsole.Internal
         private static readonly Color ExceptionColor = new Color32(255, 0, 0, 32);
         private static readonly Color AssertColor = new Color32(255, 0, 0, 32);
         private Coroutine _clearAutocompleteCoroutine;
+        private bool _freezeAutocomplete;
+        private int? _autocompleteSelecting = null;
+        private string _autocompleteSelectingOriginalInput;
+        private DebugCommand[] _autocompleteCache;
 
         public void OnEnable()
         {
@@ -54,8 +59,34 @@ namespace AbcConsole.Internal
 
         public void Update()
         {
+            UpdateKeys();
             UpdateViewArea();
             UpdateLogs();
+        }
+
+        private void UpdateKeys()
+        {
+            if (!_ui.InputField.IsActive()) return;
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                _freezeAutocomplete = true;
+                using (Disposable.Create(() => _freezeAutocomplete = false))
+                {
+                    if (_autocompleteSelecting == null) _autocompleteSelecting = 0;
+                    else _autocompleteSelecting = _autocompleteSelecting.Value + 1;
+
+                    if (_ui.Autocomplete.Elements.Length <= _autocompleteSelecting.Value)
+                    {
+                        _autocompleteSelecting = null;
+                        _ui.InputField.text = _autocompleteSelectingOriginalInput;
+                    }
+                    else
+                    {
+                        _ui.Autocomplete.Elements[_autocompleteSelecting.Value].Button.onClick.Invoke();
+                    }
+                }
+            }
         }
 
         private void UpdateViewArea()
@@ -165,11 +196,15 @@ namespace AbcConsole.Internal
 
         private void OnInputFieldValueChanged(string text)
         {
-            var commands = _root.Executor.GetAutocomplete(text);
+            if (_freezeAutocomplete) return;
+
+            _autocompleteCache = _root.Executor.GetAutocomplete(text);
+            _autocompleteSelecting = null;
+            _autocompleteSelectingOriginalInput = text;
 
             using (var editor = _ui.Autocomplete.Edit())
             {
-                foreach(var command in commands)
+                foreach(var command in _autocompleteCache)
                 {
                     var a = editor.Create();
                     a.Text.text = command.CreateSummaryText();
