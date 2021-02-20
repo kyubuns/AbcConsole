@@ -35,13 +35,26 @@ namespace AbcConsole.Internal
             );
         }
 
-        public class AutocompleteItemUiElements : IMappedObject
+        public class AutocompleteItemUiElements : IReusableMappedObject
         {
             public IMapper Mapper { get; private set; }
+            public Button Button { get; private set; }
+            public Text Text { get; private set; }
 
             public void Initialize(IMapper mapper)
             {
                 Mapper = mapper;
+                Button = mapper.Get<Button>();
+                Text = mapper.Get<Text>("Text");
+            }
+
+            public void Activate()
+            {
+            }
+
+            public void Deactivate()
+            {
+                Button.onClick.RemoveAllListeners();
             }
         }
 

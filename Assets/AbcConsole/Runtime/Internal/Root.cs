@@ -38,6 +38,11 @@ namespace AbcConsole.Internal
                 for (var i = 0; i < 5; ++i)
                 {
                     var a = editor.Create();
+                    a.Text.text = $"Autocomplete {i}";
+                    a.Button.onClick.AddListener(() =>
+                    {
+                        _ui.InputField.text = a.Text.text;
+                    });
                 }
             }
         }
