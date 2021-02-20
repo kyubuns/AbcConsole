@@ -7,7 +7,7 @@ namespace AbcConsole.Internal
     public class AbcConsoleUiElements
     {
         public InputField InputField { get; private set; }
-        public VerticalList<LogLineUiElements> Log { get; private set; }
+        public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
 
         public AbcConsoleUiElements(IMapper mapper)
         {
@@ -16,9 +16,10 @@ namespace AbcConsole.Internal
 
         private void Initialize(IMapper mapper)
         {
-            Log = new VerticalList<LogLineUiElements>(
+            Log = new VerticalList<LogLineUiElements, LogDetailUiElements>(
                 mapper.Get<ScrollRect>("Log"),
-                mapper.GetChild<LogLineUiElements>("LogLine")
+                mapper.GetChild<LogLineUiElements>("Log/LogLine"),
+                mapper.GetChild<LogDetailUiElements>("Log/LogDetail")
             );
             InputField = mapper.Get<InputField>("Input/InputField");
         }
@@ -43,6 +44,24 @@ namespace AbcConsole.Internal
             public void Deactivate()
             {
                 Button.onClick.RemoveAllListeners();
+            }
+        }
+
+        public class LogDetailUiElements : IReusableMappedObject
+        {
+            public IMapper Mapper { get; private set; }
+
+            public void Initialize(IMapper mapper)
+            {
+                Mapper = mapper;
+            }
+
+            public void Activate()
+            {
+            }
+
+            public void Deactivate()
+            {
             }
         }
     }

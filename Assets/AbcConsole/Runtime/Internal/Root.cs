@@ -17,7 +17,7 @@ namespace AbcConsole.Internal
                 for (var i = 0; i < 500; ++i)
                 {
                     var i1 = i;
-                    editor.Contents.Add(new UIFactory<AbcConsoleUiElements.LogLineUiElements>(x =>
+                    editor.Contents.Add(new UIFactory<AbcConsoleUiElements.LogLineUiElements, AbcConsoleUiElements.LogDetailUiElements>(x =>
                     {
                         x.Text.text = $"Log {i1}";
                         x.Button.onClick.AddListener(() =>
