@@ -25,7 +25,7 @@ namespace AbcConsole.Internal
         {
             var input = text.Split(' ').Select(x => x.Trim()).ToArray();
 
-            var method = _debugCommands.FirstOrDefault(x => x.MethodInfo.Name == input[0]);
+            var method = _debugCommands.FirstOrDefault(x => string.Equals(x.MethodInfo.Name, input[0], StringComparison.OrdinalIgnoreCase));
             if (method == null)
             {
                 Debug.Log($"{input[0]} is not found");
