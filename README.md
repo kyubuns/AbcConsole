@@ -1,7 +1,9 @@
 # AbcConsole
-Mobile-friendly debug console system.  
+Mobile-friendly debug console system.
 
 <a href="https://www.buymeacoffee.com/kyubuns" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+![output](https://user-images.githubusercontent.com/961165/108594142-7ee5cc80-73bb-11eb-94fe-c6e0e1f41017.gif)
 
 ## Features
 
