@@ -80,12 +80,12 @@ namespace AbcConsole.Internal
             if (Mathf.Abs(keyboardHeight - _updatedKeyboardHeight) < 0.0001f) return;
 
             _updatedKeyboardHeight = keyboardHeight;
-            Debug.Log($"Update Height {_updatedKeyboardHeight}");
 
             var resolutionHeight = _canvasRect.sizeDelta.y;
             var rate = resolutionHeight / Screen.height;
             var margin = keyboardHeight * rate;
             _ui.ViewArea.sizeDelta = new Vector2(0, -margin);
+            _ui.Log.NormalizedPosition = 0.0f;
         }
 
         private void UpdateLogs()
