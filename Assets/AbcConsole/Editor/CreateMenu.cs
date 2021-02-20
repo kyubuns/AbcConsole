@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using AnKuchen.Map;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AbcConsole.Editor
 {
@@ -18,6 +20,7 @@ namespace AbcConsole.Editor
             instance.GetComponentInChildren<UICache>().Get("Console").SetActive(false);
 
             Selection.objects = new Object[] { instance };
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
     }
 }
