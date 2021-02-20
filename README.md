@@ -12,7 +12,12 @@ UNDER DEVELOPMENT
 
 ## How to use
 
-(ToDo)
+### Setup
+
+Assets > Create > AbcConsole to Startup Scene.  
+You can open AbcConsole, Left Top Button.
+
+### Define debug command
 
 ```csharp
 public static class OriginalCommand
@@ -30,6 +35,22 @@ public static class OriginalCommand
     }
 }
 ```
+
+## FAQ
+
+### I want to change the color and location of the TriggerButton.
+
+You can change AbcConsole GameObject.  
+My recommendation is to make the color of AbcConsole/Canvas/TriggerButton/Base transparent.
+
+### I want to turn it off when I do a production build.
+
+Delete AbcConsole GameObject.
+
+### I want to use a trigger other than the Button.
+
+Disable AbcConsole/Canvas/TriggerButton Object.  
+You can also use the OnClickTriggerButton method of the Root Component (which AbcConsole has).
 
 ## Requirements
 
