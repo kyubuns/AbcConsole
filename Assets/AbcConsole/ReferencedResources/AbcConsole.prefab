@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 1581896735688276315}
   - component: {fileID: 7649116682720586090}
   - component: {fileID: 3091551432406390723}
+  - component: {fileID: 6504386348562783822}
   m_Layer: 0
   m_Name: PasteButton
   m_TagString: Untagged
@@ -410,6 +411,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6504386348562783822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516924480563317436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5223c37179d047919880a9a5e265c108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &1595664565989036036
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +780,7 @@ GameObject:
   - component: {fileID: 6868828876180596791}
   - component: {fileID: 9025438022748475284}
   - component: {fileID: 5835467545820026344}
+  - component: {fileID: 5842255704942971572}
   m_Layer: 0
   m_Name: EnterButton
   m_TagString: Untagged
@@ -873,6 +888,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5842255704942971572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3351423019882614451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5223c37179d047919880a9a5e265c108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &3524941913042854960
 GameObject:
   m_ObjectHideFlags: 0

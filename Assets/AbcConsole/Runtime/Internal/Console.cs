@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
@@ -29,6 +28,7 @@ namespace AbcConsole.Internal
         private DebugCommand[] _autocompleteCache;
         private float _prevFrameKeyboardHeight;
         private float _stableKeyboardHeight;
+        private int _onInputFieldEndEditFrame;
 
         public void OnEnable()
         {
@@ -45,8 +45,26 @@ namespace AbcConsole.Internal
             if (_ui == null)
             {
                 _ui = new AbcConsoleUiElements(GetComponentInParent<UICache>());
-                _ui.EnterButton.onClick.AddListener(OnClickEnterButton);
-                _ui.PasteButton.onClick.AddListener(OnClickPasteButton);
+                _ui.EnterButton.onClick.AddListener(() =>
+                {
+                    var isFocused = (_onInputFieldEndEditFrame == Time.frameCount);
+                    OnClickEnterButton();
+                    if (isFocused)
+                    {
+                        _ui.InputField.FocusAndMoveToEnd();
+                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
+                    }
+                });
+                _ui.PasteButton.onClick.AddListener(() =>
+                {
+                    var isFocused = (_onInputFieldEndEditFrame == Time.frameCount);
+                    OnClickPasteButton();
+                    if (isFocused)
+                    {
+                        _ui.InputField.FocusAndMoveToEnd();
+                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
+                    }
+                });
                 _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
                 _ui.InputField.onValueChanged.AddListener(OnInputFieldValueChanged);
                 _ui.InputField.onValidateInput += (text, index, addedChar) =>
@@ -56,7 +74,7 @@ namespace AbcConsole.Internal
                 };
             }
 
-            _ui.InputField.Focus();
+            _ui.InputField.FocusAndMoveToEnd();
         }
 
         public void Update()
@@ -188,16 +206,20 @@ namespace AbcConsole.Internal
 
         private void OnInputFieldEndEdit()
         {
+            _onInputFieldEndEditFrame = Time.frameCount;
+
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnClickEnterButton();
-                _ui.InputField.Focus();
+                _ui.InputField.FocusAndMoveToEnd();
+                return;
             }
 
             if (_ui.InputField.touchScreenKeyboard?.status == TouchScreenKeyboard.Status.Done)
             {
                 OnClickEnterButton();
-                _ui.InputField.Focus();
+                _ui.InputField.FocusAndMoveToEnd();
+                return;
             }
 
             IEnumerator ClearAutocomplete()
@@ -228,10 +250,9 @@ namespace AbcConsole.Internal
                     a.Text.text = command.CreateSummaryText();
                     a.Button.onClick.AddListener(() =>
                     {
-                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
-
                         _ui.InputField.text = $"{command.MethodInfo.Name} ";
                         _ui.InputField.FocusAndMoveToEnd();
+                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
                     });
                 }
             }
