@@ -69,7 +69,21 @@ namespace AbcConsole.Internal
 
         public DebugCommand[] GetAutocomplete(string text)
         {
-            return _debugCommands.ToArray();
+            var input = text.Split(' ').Select(x => x.Trim()).ToArray();
+            if (input.Length == 0 || string.IsNullOrWhiteSpace(input[0])) return new DebugCommand[] { };
+
+            var methodName = input[0].ToLowerInvariant();
+            var methodsStartsWith = _debugCommands
+                .Where(x => x.LowerMethodName.StartsWith(methodName))
+                .OrderBy(x => x.MethodInfo.Name.Length)
+                .ThenBy(x => x.MethodInfo.Name);
+            var methodsContains = _debugCommands
+                .Where(x => x.LowerMethodName.Contains(methodName))
+                .OrderBy(x => x.MethodInfo.Name.Length)
+                .ThenBy(x => x.MethodInfo.Name);
+
+            var methods = methodsStartsWith.Concat(methodsContains).Distinct().Take(Root.MaxAutocompleteSize);
+            return methods.ToArray();
         }
     }
 }

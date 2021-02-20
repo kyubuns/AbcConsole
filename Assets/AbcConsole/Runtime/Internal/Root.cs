@@ -16,7 +16,8 @@ namespace AbcConsole.Internal
         public ConsoleState State { get; private set; } = ConsoleState.None;
         public Executor Executor { get; private set; }
 
-        private const int MaxLogSize = 1000;
+        public const int MaxLogSize = 1000;
+        public const int MaxAutocompleteSize = 10;
 
         private AbcConsoleUiElements _ui;
         private readonly List<Log> _logs = new List<Log>(MaxLogSize);
@@ -109,11 +110,13 @@ namespace AbcConsole.Internal
 
     public class DebugCommand
     {
+        public string LowerMethodName { get; }
         public MethodInfo MethodInfo { get; }
         public AbcCommandAttribute Attribute { get; }
 
         public DebugCommand(MethodInfo methodInfo, AbcCommandAttribute attribute)
         {
+            LowerMethodName = methodInfo.Name.ToLowerInvariant();
             MethodInfo = methodInfo;
             Attribute = attribute;
         }
