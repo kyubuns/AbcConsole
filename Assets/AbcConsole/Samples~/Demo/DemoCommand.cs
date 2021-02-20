@@ -21,5 +21,11 @@ namespace AbcConsole.Demo
         {
             Debug.LogError(message);
         }
+
+        [AbcCommand()]
+        public static void SetBackgroundColor(byte r, byte g, byte b)
+        {
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color32(r, g, b, 255);
+        }
     }
 }

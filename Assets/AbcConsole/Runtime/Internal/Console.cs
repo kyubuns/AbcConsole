@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
@@ -28,9 +29,12 @@ namespace AbcConsole.Internal
         private DebugCommand[] _autocompleteCache;
         private float _prevFrameKeyboardHeight;
         private float _stableKeyboardHeight;
+        private bool _onDisabled;
 
         public void OnEnable()
         {
+            _onDisabled = false;
+
             if (_root == null)
             {
                 _root = GetComponentInParent<Root>();
@@ -56,6 +60,11 @@ namespace AbcConsole.Internal
             }
 
             _ui.InputField.Focus();
+        }
+
+        public void OnDisable()
+        {
+            _onDisabled = true;
         }
 
         public void Update()
@@ -209,6 +218,7 @@ namespace AbcConsole.Internal
                 _clearAutocompleteCoroutine = null;
             }
 
+            if (_onDisabled) return;
             _clearAutocompleteCoroutine = StartCoroutine(ClearAutocomplete());
         }
 
