@@ -1,9 +1,10 @@
 ﻿using System;
+using UnityEngine.Scripting;
 
 namespace AbcConsole
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class AbcCommandAttribute : Attribute
+    public class AbcCommandAttribute : PreserveAttribute
     {
         public string Summary { get; }
 
