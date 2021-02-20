@@ -24,6 +24,8 @@ namespace AbcConsole.Internal
         private Coroutine _clearAutocompleteCoroutine;
         private bool _freezeAutocomplete;
         private int? _autocompleteSelecting;
+        private bool _freezeSelectHistory;
+        private int? _selectHistory;
         private string _autocompleteSelectingOriginalInput;
         private DebugCommand[] _autocompleteCache;
         private float _prevFrameKeyboardHeight;
@@ -88,23 +90,64 @@ namespace AbcConsole.Internal
         {
             if (!_ui.InputField.IsActive()) return;
 
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                _freezeAutocomplete = true;
-                using (Disposable.Create(() => _freezeAutocomplete = false))
-                {
-                    if (_autocompleteSelecting == null) _autocompleteSelecting = 0;
-                    else _autocompleteSelecting = _autocompleteSelecting.Value + 1;
+            if (Input.GetKeyDown(KeyCode.Tab)) RequestAutocomplete();
+            if (Input.GetKeyDown(KeyCode.UpArrow)) RequestHistoryUp();
+            if (Input.GetKeyDown(KeyCode.DownArrow)) RequestHistoryDown();
+        }
 
-                    if (_ui.Autocomplete.Elements.Length <= _autocompleteSelecting.Value)
+        private void RequestAutocomplete()
+        {
+            _freezeAutocomplete = true;
+            using (Disposable.Create(() => _freezeAutocomplete = false))
+            {
+                if (_autocompleteSelecting == null) _autocompleteSelecting = 0;
+                else _autocompleteSelecting = _autocompleteSelecting.Value + 1;
+
+                if (_ui.Autocomplete.Elements.Length <= _autocompleteSelecting.Value)
+                {
+                    _autocompleteSelecting = null;
+                    _ui.InputField.text = _autocompleteSelectingOriginalInput;
+                }
+                else
+                {
+                    _ui.Autocomplete.Elements[_autocompleteSelecting.Value].Button.onClick.Invoke();
+                }
+            }
+        }
+
+        private void RequestHistoryUp()
+        {
+            if (_selectHistory == null) _selectHistory = 0;
+            else _selectHistory = _selectHistory.Value + 1;
+            RequestHistory();
+        }
+
+        private void RequestHistoryDown()
+        {
+            if (_selectHistory == null || _selectHistory == 0) _selectHistory = null;
+            else _selectHistory = _selectHistory.Value - 1;
+            RequestHistory();
+        }
+
+        private void RequestHistory()
+        {
+            if (_selectHistory == null) return;
+
+            _freezeSelectHistory = true;
+            using (Disposable.Create(() => _freezeSelectHistory = false))
+            {
+                var count = 0;
+                for (var i = _root.Logs.Count - 1; i >= 0; --i)
+                {
+                    if (!_root.Logs[i].Condition.StartsWith("> ")) continue;
+                    if (count != _selectHistory)
                     {
-                        _autocompleteSelecting = null;
-                        _ui.InputField.text = _autocompleteSelectingOriginalInput;
+                        count++;
+                        continue;
                     }
-                    else
-                    {
-                        _ui.Autocomplete.Elements[_autocompleteSelecting.Value].Button.onClick.Invoke();
-                    }
+
+                    _ui.InputField.text = _root.Logs[i].Condition.TrimStart('>').Trim();
+                    break;
                 }
             }
         }
@@ -236,24 +279,30 @@ namespace AbcConsole.Internal
 
         private void OnInputFieldValueChanged(string text)
         {
-            if (_freezeAutocomplete) return;
-
-            _autocompleteCache = _root.Executor.GetAutocomplete(text);
-            _autocompleteSelecting = null;
-            _autocompleteSelectingOriginalInput = text;
-
-            using (var editor = _ui.Autocomplete.Edit())
+            if (!_freezeSelectHistory)
             {
-                foreach(var command in _autocompleteCache)
+                _selectHistory = null;
+            }
+
+            if (!_freezeAutocomplete)
+            {
+                _autocompleteCache = _root.Executor.GetAutocomplete(text);
+                _autocompleteSelecting = null;
+                _autocompleteSelectingOriginalInput = text;
+
+                using (var editor = _ui.Autocomplete.Edit())
                 {
-                    var a = editor.Create();
-                    a.Text.text = command.CreateSummaryText();
-                    a.Button.onClick.AddListener(() =>
+                    foreach (var command in _autocompleteCache)
                     {
-                        _ui.InputField.text = $"{command.MethodInfo.Name} ";
-                        _ui.InputField.FocusAndMoveToEnd();
-                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
-                    });
+                        var a = editor.Create();
+                        a.Text.text = command.CreateSummaryText();
+                        a.Button.onClick.AddListener(() =>
+                        {
+                            _ui.InputField.text = $"{command.MethodInfo.Name} ";
+                            _ui.InputField.FocusAndMoveToEnd();
+                            if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
+                        });
+                    }
                 }
             }
         }
