@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -26,8 +25,6 @@ namespace AbcConsole.Internal
 
         public void OnEnable()
         {
-            Debug.Log("Console.OnEnable");
-
             if (_root == null)
             {
                 _root = GetComponentInParent<Root>();
@@ -179,8 +176,9 @@ namespace AbcConsole.Internal
                     a.Button.onClick.AddListener(() =>
                     {
                         if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
-                        _ui.InputField.text = command.MethodInfo.Name;
-                        _ui.InputField.Focus();
+
+                        _ui.InputField.text = $"{command.MethodInfo.Name} ";
+                        _ui.InputField.FocusAndMoveToEnd();
                     });
                 }
             }

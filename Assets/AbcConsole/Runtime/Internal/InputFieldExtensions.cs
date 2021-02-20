@@ -26,6 +26,30 @@ namespace AbcConsole.Internal
             var coroutineRunner = go.AddComponent<CoroutineRunner>();
             coroutineRunner.StartCoroutine(Internal());
         }
+
+        public static void FocusAndMoveToEnd(this InputField inputField)
+        {
+            var go = new GameObject("AbcConsoleCoroutineRunner");
+
+            IEnumerator Internal()
+            {
+                yield return new WaitForEndOfFrame();
+                if (TouchScreenKeyboard.isSupported)
+                {
+                    TouchScreenKeyboard.Open(string.Empty, TouchScreenKeyboardType.ASCIICapable);
+                }
+                EventSystem.current.SetSelectedGameObject(inputField.gameObject);
+                inputField.ActivateInputField();
+
+                yield return new WaitForEndOfFrame();
+
+                inputField.MoveTextEnd(false);
+                Object.Destroy(go);
+            }
+
+            var coroutineRunner = go.AddComponent<CoroutineRunner>();
+            coroutineRunner.StartCoroutine(Internal());
+        }
     }
 
     public class CoroutineRunner : MonoBehaviour
