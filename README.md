@@ -6,11 +6,30 @@ UNDER DEVELOPMENT
 
 ## Instructions
 
-- Package Manager `https://github.com/kyubuns/AbcConsole.git?path=Assets/AbcConsole`
+- Package Manager
+  - Import [AnKuchen](https://github.com/kyubuns/AnKuchen) `https://github.com/kyubuns/AnKuchen.git?path=Unity/Assets/AnKuchen`
+  - Import AbcConsole `https://github.com/kyubuns/AbcConsole.git?path=Assets/AbcConsole`
 
 ## How to use
 
 (ToDo)
+
+```csharp
+public static class OriginalCommand
+{
+    [AbcCommand("Show App Version")]
+    public static void AppVersion()
+    {
+        Debug.Log($"AppVersion is {Application.version}");
+    }
+
+    [AbcCommand("Message To DebugLog")]
+    public static void Echo(string message)
+    {
+        Debug.Log(message);
+    }
+}
+```
 
 ## Requirements
 
