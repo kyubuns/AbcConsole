@@ -9,5 +9,17 @@ namespace AbcConsole.Demo
         {
             Debug.Log(message);
         }
+
+        [AbcCommand("warning")]
+        public static void EchoWarning(string message)
+        {
+            Debug.LogWarning(message);
+        }
+
+        [AbcCommand("error")]
+        public static void EchoError(string message)
+        {
+            Debug.LogError(message);
+        }
     }
 }
