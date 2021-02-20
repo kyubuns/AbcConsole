@@ -144,6 +144,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "dev.kyubuns.ankuchen": {
+      "version": "https://github.com/kyubuns/AnKuchen.git?path=Unity/Assets/AnKuchen",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6e9054901a45523fa63cf37557b43e7f05ca99f8"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
