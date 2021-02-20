@@ -31,6 +31,7 @@ namespace AbcConsole.Internal
         private float _prevFrameKeyboardHeight;
         private float _stableKeyboardHeight;
         private int _onInputFieldEndEditFrame;
+        private Rect _cachedSafeArea = new Rect();
 
         public void OnEnable()
         {
@@ -82,6 +83,7 @@ namespace AbcConsole.Internal
         public void Update()
         {
             UpdateKeys();
+            UpdateSafeArea();
             UpdateViewArea();
             UpdateLogs();
         }
@@ -152,6 +154,19 @@ namespace AbcConsole.Internal
             }
         }
 
+        private void UpdateSafeArea()
+        {
+            if (_cachedSafeArea == Screen.safeArea) return;
+            _cachedSafeArea = Screen.safeArea;
+
+            var resolutionWidth = _canvasRect.sizeDelta.x;
+            var rate = resolutionWidth / Screen.width;
+            var leftMargin = _cachedSafeArea.x * rate;
+            var rightMargin = (Screen.width - _cachedSafeArea.x - _cachedSafeArea.width) * rate;
+            _ui.ViewArea.sizeDelta = new Vector2(-(leftMargin + rightMargin), 0f);
+            _ui.ViewArea.anchoredPosition = new Vector2((leftMargin - rightMargin) / 2f, 0f);
+        }
+
         private float GetKeyboardHeight()
         {
             // たまに1フレだけ荒ぶることがあるので2フレ連続しないと値を採用しない
@@ -173,7 +188,6 @@ namespace AbcConsole.Internal
         {
             var keyboardHeight = GetKeyboardHeight();
             if (Mathf.Abs(keyboardHeight - _updatedKeyboardHeight) < 0.0001f) return;
-
             _updatedKeyboardHeight = keyboardHeight;
 
             var resolutionHeight = _canvasRect.sizeDelta.y;
