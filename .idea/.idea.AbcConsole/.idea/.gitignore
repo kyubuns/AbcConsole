@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+/indexLayout.xml
+/.idea.AbcConsole.iml
+/aws.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
