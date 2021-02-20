@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AnKuchen.Map;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,10 +13,11 @@ namespace AbcConsole.Editor
             var prefabGuid = AssetDatabase.FindAssets("AbcConsole t:Prefab").Single();
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuid));
 
-            var instance = PrefabUtility.InstantiatePrefab(prefab);
+            var instance = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
             instance.name = "AbcConsole";
+            instance.GetComponentInChildren<UICache>().Get("Console").SetActive(false);
 
-            Selection.objects = new[] { instance };
+            Selection.objects = new Object[] { instance };
         }
     }
 }
