@@ -170,11 +170,11 @@ namespace AbcConsole.Internal
         public void OnClickEnterButton()
         {
             var text = _ui.InputField.text.Trim();
-            _ui.InputField.text = "";
             if (string.IsNullOrWhiteSpace(text)) return;
 
             Debug.Log($"> {text}");
-            _root.Executor.ExecuteMethod(text);
+            var executed = _root.Executor.ExecuteMethod(text);
+            if (executed) _ui.InputField.text = "";
         }
 
         public void OnClickPasteButton()

@@ -21,7 +21,7 @@ namespace AbcConsole.Internal
             _debugCommands = allMethods.Select(x => new DebugCommand(x, x.GetCustomAttribute<AbcCommandAttribute>())).ToList();
         }
 
-        public void ExecuteMethod(string text)
+        public bool ExecuteMethod(string text)
         {
             var input = text.Split(' ').Select(x => x.Trim()).ToArray();
 
@@ -29,7 +29,7 @@ namespace AbcConsole.Internal
             if (method == null)
             {
                 Debug.Log($"{input[0]} is not found");
-                return;
+                return false;
             }
 
             var parameters = new List<object>();
@@ -38,7 +38,7 @@ namespace AbcConsole.Internal
             if (parameterInfos.Length != args.Count)
             {
                 Debug.Log($"{method.MethodInfo.Name} needs {parameterInfos.Length} parameters");
-                return;
+                return false;
             }
 
             foreach (var parameterInfo in parameterInfos)
@@ -64,6 +64,7 @@ namespace AbcConsole.Internal
             }
 
             method.MethodInfo.Invoke(null, parameters.ToArray());
+            return true;
         }
     }
 }
