@@ -4,6 +4,12 @@ namespace AbcConsole.Demo
 {
     public static class DemoCommand
     {
+        [AbcCommand("アプリのバージョンを表示する")]
+        public static void AppVersion()
+        {
+            Debug.Log($"AppVersion is {Application.version}");
+        }
+
         [AbcCommand("message to debug log")]
         public static void Echo(string message)
         {
@@ -22,7 +28,7 @@ namespace AbcConsole.Demo
             Debug.LogError(message);
         }
 
-        [AbcCommand()]
+        [AbcCommand]
         public static void SetBackgroundColor(int r, int g, int b)
         {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color32((byte) r, (byte) g, (byte) b, 255);
