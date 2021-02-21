@@ -50,19 +50,13 @@ namespace AbcConsole.Internal
                 {
                     var isFocused = (_onInputFieldEndEditFrame == Time.frameCount);
                     OnClickEnterButton();
-                    if (isFocused)
-                    {
-                        _ui.InputField.FocusAndMoveToEnd();
-                    }
+                    if (isFocused) _ui.InputField.FocusAndMoveToEnd();
                 });
                 _ui.PasteButton.onClick.AddListener(() =>
                 {
                     var isFocused = (_onInputFieldEndEditFrame == Time.frameCount);
                     OnClickPasteButton();
-                    if (isFocused)
-                    {
-                        _ui.InputField.FocusAndMoveToEnd();
-                    }
+                    if (isFocused) _ui.InputField.FocusAndMoveToEnd();
                 });
                 _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
                 _ui.InputField.onValueChanged.AddListener(OnInputFieldValueChanged);

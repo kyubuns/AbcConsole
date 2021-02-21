@@ -14,7 +14,7 @@ namespace AbcConsole.Internal
                 yield return new WaitForEndOfFrame();
                 if (TouchScreenKeyboard.isSupported)
                 {
-                    TouchScreenKeyboard.Open(string.Empty, TouchScreenKeyboardType.ASCIICapable);
+                    TouchScreenKeyboard.Open(inputField.text, TouchScreenKeyboardType.ASCIICapable);
                 }
                 EventSystem.current.SetSelectedGameObject(inputField.gameObject);
                 inputField.ActivateInputField();
@@ -30,7 +30,7 @@ namespace AbcConsole.Internal
                 yield return new WaitForEndOfFrame();
                 if (TouchScreenKeyboard.isSupported)
                 {
-                    TouchScreenKeyboard.Open(string.Empty, TouchScreenKeyboardType.ASCIICapable);
+                    TouchScreenKeyboard.Open(inputField.text, TouchScreenKeyboardType.ASCIICapable);
                 }
                 EventSystem.current.SetSelectedGameObject(inputField.gameObject);
                 inputField.ActivateInputField();
