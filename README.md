@@ -13,9 +13,6 @@ Mobile-friendly debug console system.
 
 ## Instructions
 
-- UnityPackage
-  - [Import AnKuchen](https://github.com/kyubuns/AnKuchen/releases)
-  - [Import AbcConsole](https://github.com/kyubuns/AbcConsole/releases)
 - Package Manager
   - Import [AnKuchen](https://github.com/kyubuns/AnKuchen) `https://github.com/kyubuns/AnKuchen.git?path=Unity/Assets/AnKuchen`
   - Import AbcConsole `https://github.com/kyubuns/AbcConsole.git?path=Assets/AbcConsole`
