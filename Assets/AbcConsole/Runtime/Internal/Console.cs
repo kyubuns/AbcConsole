@@ -1,4 +1,3 @@
-using System.Collections;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -21,7 +20,6 @@ namespace AbcConsole.Internal
         private static readonly Color ErrorColor = new Color32(255, 0, 0, 32);
         private static readonly Color ExceptionColor = new Color32(255, 0, 0, 32);
         private static readonly Color AssertColor = new Color32(255, 0, 0, 32);
-        private Coroutine _clearAutocompleteCoroutine;
         private bool _freezeAutocomplete;
         private int? _autocompleteSelecting;
         private bool _freezeSelectHistory;
@@ -31,7 +29,7 @@ namespace AbcConsole.Internal
         private float _prevFrameKeyboardHeight;
         private float _stableKeyboardHeight;
         private int _onInputFieldEndEditFrame;
-        private Rect _cachedSafeArea = new Rect();
+        private Rect _cachedSafeArea;
 
         public void OnEnable()
         {
@@ -55,7 +53,6 @@ namespace AbcConsole.Internal
                     if (isFocused)
                     {
                         _ui.InputField.FocusAndMoveToEnd();
-                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
                     }
                 });
                 _ui.PasteButton.onClick.AddListener(() =>
@@ -65,7 +62,6 @@ namespace AbcConsole.Internal
                     if (isFocused)
                     {
                         _ui.InputField.FocusAndMoveToEnd();
-                        if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
                     }
                 });
                 _ui.InputField.onEndEdit.AddListener(_ => OnInputFieldEndEdit());
@@ -82,10 +78,19 @@ namespace AbcConsole.Internal
 
         public void Update()
         {
+            UpdateClearAutocomplete();
             UpdateKeys();
             UpdateSafeArea();
             UpdateViewArea();
             UpdateLogs();
+        }
+
+        private void UpdateClearAutocomplete()
+        {
+            if (_ui.Autocomplete.Elements.Length > 0 && Input.touchCount > 0)
+            {
+                ClearAutocomplete();
+            }
         }
 
         private void UpdateKeys()
@@ -278,17 +283,13 @@ namespace AbcConsole.Internal
                 _ui.InputField.FocusAndMoveToEnd();
                 return;
             }
+        }
 
-            IEnumerator ClearAutocomplete()
+        private void ClearAutocomplete()
+        {
+            using (_ui.Autocomplete.Edit())
             {
-                // Buttonのクリック判定を出すために待つ
-                yield return new WaitForEndOfFrame();
-                using (_ui.Autocomplete.Edit())
-                {
-                }
-                _clearAutocompleteCoroutine = null;
             }
-            _clearAutocompleteCoroutine = Utils.StartCoroutine(ClearAutocomplete());
         }
 
         private void OnInputFieldValueChanged(string text)
@@ -314,7 +315,6 @@ namespace AbcConsole.Internal
                         {
                             _ui.InputField.text = $"{command.MethodInfo.Name} ";
                             _ui.InputField.FocusAndMoveToEnd();
-                            if (_clearAutocompleteCoroutine != null) StopCoroutine(_clearAutocompleteCoroutine);
                         });
                     }
                 }
