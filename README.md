@@ -3,7 +3,7 @@ Mobile-friendly debug console!
 
 <a href="https://www.buymeacoffee.com/kyubuns" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
-![output](https://user-images.githubusercontent.com/961165/108594142-7ee5cc80-73bb-11eb-94fe-c6e0e1f41017.gif)
+![output](https://user-images.githubusercontent.com/961165/108616000-c10b1e80-744c-11eb-9fed-af97f620c6b7.gif)
 
 ## Features
 
