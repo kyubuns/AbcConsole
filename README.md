@@ -19,7 +19,8 @@ You can define your own debug methods, and enter and execute them.
 You only need to enter a few characters of the method name, and you can comfortably use AUTOCOMPLETE to enter the name!!
 
 Checked by iOS, Android.  
-Of course, it can also be used with Editor, Windows, and Mac.
+Of course, it can also be used with Editor, Windows, and Mac.  
+You can start it with the tilde key, and the Tab key, up and down keys, etc. also work like a common console.
 
 ## Instructions
 
