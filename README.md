@@ -1,14 +1,6 @@
 # AbcConsole
 Mobile-friendly debug console system.
 
-It is simple, but has all the necessary elements.  
-Check and copy logs generated on the actual machine.  
-You can define your own debug methods, and enter and execute them.  
-You only need to enter a few characters of the method name, and you can comfortably use AUTOCOMPLETE to enter the name!!
-
-Checked by iOS, Android.  
-Of course, it can also be used with Editor, Windows, and Mac.
-
 <a href="https://www.buymeacoffee.com/kyubuns" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 ![output](https://user-images.githubusercontent.com/961165/108594142-7ee5cc80-73bb-11eb-94fe-c6e0e1f41017.gif)
@@ -18,6 +10,16 @@ Of course, it can also be used with Editor, Windows, and Mac.
 ### Check and copy logs
 
 ### Autocomplete for mobile comfort
+
+## Description
+
+It is simple, but has all the necessary elements.  
+Check and copy logs generated on the actual machine.  
+You can define your own debug methods, and enter and execute them.  
+You only need to enter a few characters of the method name, and you can comfortably use AUTOCOMPLETE to enter the name!!
+
+Checked by iOS, Android.  
+Of course, it can also be used with Editor, Windows, and Mac.
 
 ## Instructions
 
