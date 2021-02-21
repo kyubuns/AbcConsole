@@ -36,6 +36,9 @@ You can open the AbcConsole in the upper left button.
 
 ### Define debug command
 
+All you have to do is define the method with the AbcCommand Attribute.
+Primitive types can be used as arguments.
+
 ```csharp
 public static class OriginalCommand
 {
