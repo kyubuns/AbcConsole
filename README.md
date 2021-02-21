@@ -31,8 +31,8 @@ Of course, it can also be used with Editor, Windows, and Mac.
 
 ### Setup
 
-Assets > Create > AbcConsole to Startup Scene.  
-You can open AbcConsole, Left Top Button.
+Place the AbcConsole GameObject in your first scene from the menu Assets > Create > AbcConsole.  
+You can open the AbcConsole in the upper left button.
 
 ### Define debug command
 
