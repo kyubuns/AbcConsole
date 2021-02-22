@@ -88,6 +88,7 @@ namespace AbcConsole.Internal
 
     public interface IRoot
     {
+        ConsoleState State { get; }
         IReadOnlyList<Log> Logs { get; }
         void ClearLogs();
     }
