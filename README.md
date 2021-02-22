@@ -67,7 +67,16 @@ My recommendation is to make the color of AbcConsole/Canvas/TriggerButton/Base t
 
 ### I want to turn it off when I do a production build.
 
-Delete AbcConsole GameObject.
+Delete AbcConsole GameObject.  
+Or, Instantiate only when necessary, as follows. (Recommend)
+
+```csharp
+[Conditional("DEVELOPMENT_BUILD"), Conditional("UNITY_EDITOR")]
+private void CreateAbcConsoleForDebug()
+{
+    Instantiate(abcConsolePrefab);
+}
+```
 
 ### I want to use a trigger other than the Button.
 
