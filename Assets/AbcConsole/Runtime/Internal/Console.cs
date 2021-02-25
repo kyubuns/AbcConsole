@@ -162,7 +162,7 @@ namespace AbcConsole.Internal
             var rate = resolutionWidth / Screen.width;
             var leftMargin = _cachedSafeArea.x * rate;
             var rightMargin = (Screen.width - _cachedSafeArea.x - _cachedSafeArea.width) * rate;
-            _ui.ViewArea.sizeDelta = new Vector2(-(leftMargin + rightMargin), 0f);
+            _ui.ViewArea.sizeDelta = new Vector2(-(leftMargin + rightMargin), _ui.ViewArea.sizeDelta.y);
             _ui.ViewArea.anchoredPosition = new Vector2((leftMargin - rightMargin) / 2f, 0f);
         }
 
@@ -192,7 +192,7 @@ namespace AbcConsole.Internal
             var resolutionHeight = _canvasRect.sizeDelta.y;
             var rate = resolutionHeight / Screen.height;
             var margin = keyboardHeight * rate;
-            _ui.ViewArea.sizeDelta = new Vector2(0, -margin);
+            _ui.ViewArea.sizeDelta = new Vector2(_ui.ViewArea.sizeDelta.x, -margin);
             _ui.Log.NormalizedPosition = 0.0f;
         }
 
