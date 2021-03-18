@@ -7,31 +7,17 @@ namespace AbcConsole.Internal
 {
     public static class InputFieldExtensions
     {
-        public static void Focus(this InputField inputField)
-        {
-            IEnumerator Internal()
-            {
-                yield return new WaitForEndOfFrame();
-                if (TouchScreenKeyboard.isSupported)
-                {
-                    TouchScreenKeyboard.Open(inputField.text, TouchScreenKeyboardType.ASCIICapable);
-                }
-                EventSystem.current.SetSelectedGameObject(inputField.gameObject);
-                inputField.ActivateInputField();
-            }
-
-            Utils.StartCoroutine(Internal());
-        }
-
         public static void FocusAndMoveToEnd(this InputField inputField)
         {
             IEnumerator Internal()
             {
                 yield return new WaitForEndOfFrame();
+
                 if (TouchScreenKeyboard.isSupported)
                 {
                     TouchScreenKeyboard.Open(inputField.text, TouchScreenKeyboardType.ASCIICapable);
                 }
+
                 EventSystem.current.SetSelectedGameObject(inputField.gameObject);
                 inputField.ActivateInputField();
 
@@ -40,7 +26,20 @@ namespace AbcConsole.Internal
                 inputField.MoveTextEnd(false);
             }
 
-            Utils.StartCoroutine(Internal());
+            if (
+                Application.platform == RuntimePlatform.OSXEditor
+                || Application.platform == RuntimePlatform.OSXPlayer
+                || Application.platform == RuntimePlatform.WindowsPlayer
+                || Application.platform == RuntimePlatform.WindowsEditor
+                || Application.platform == RuntimePlatform.IPhonePlayer
+                || Application.platform == RuntimePlatform.Android
+                || Application.platform == RuntimePlatform.LinuxPlayer
+                || Application.platform == RuntimePlatform.LinuxEditor
+                || Application.platform == RuntimePlatform.WebGLPlayer
+            )
+            {
+                Utils.StartCoroutine(Internal());
+            }
         }
     }
 
