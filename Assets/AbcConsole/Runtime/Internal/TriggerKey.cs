@@ -4,7 +4,11 @@ namespace AbcConsole.Internal
 {
     public class TriggerKey : MonoBehaviour
     {
+#if NEW_INPUT_SYSTEM_SUPPORT
+        [SerializeField] private string keyCode = "Backquote";
+#else
         [SerializeField] private KeyCode keyCode = KeyCode.BackQuote;
+#endif
         private Root _root;
 
         public void Start()
@@ -14,12 +18,12 @@ namespace AbcConsole.Internal
 
         public void Update()
         {
-            if (Input.GetKeyDown(keyCode))
+            if (KeyInput.GetKeyDown(keyCode))
             {
                 _root.OnClickTriggerButton();
             }
 
-            if (Root.CurrentInstance.State != ConsoleState.None && Input.GetKeyDown(KeyCode.Escape))
+            if (Root.CurrentInstance.State != ConsoleState.None && KeyInput.GetEscapeKeyDown())
             {
                 _root.OnClickTriggerButton();
             }
