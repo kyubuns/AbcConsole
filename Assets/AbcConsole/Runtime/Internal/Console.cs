@@ -91,9 +91,9 @@ namespace AbcConsole.Internal
         {
             if (!_ui.InputField.IsActive()) return;
 
-            if (Input.GetKeyDown(KeyCode.Tab)) RequestAutocomplete();
-            if (Input.GetKeyDown(KeyCode.UpArrow)) RequestHistoryUp();
-            if (Input.GetKeyDown(KeyCode.DownArrow)) RequestHistoryDown();
+            if (KeyInput.GetTabKeyDown()) RequestAutocomplete();
+            if (KeyInput.GetUpArrowKeyDown()) RequestHistoryUp();
+            if (KeyInput.GetDownArrowKeyDown()) RequestHistoryDown();
         }
 
         private void RequestAutocomplete()
@@ -264,7 +264,7 @@ namespace AbcConsole.Internal
         {
             _onInputFieldEndEditFrame = Time.frameCount;
 
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (KeyInput.GetReturnKeyDown())
             {
                 OnClickEnterButton();
                 _ui.InputField.FocusAndMoveToEnd();

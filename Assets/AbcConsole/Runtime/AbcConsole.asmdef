@@ -1,7 +1,8 @@
 {
     "name": "AbcConsole",
     "references": [
-        "GUID:f48a88687021943959a850c81ac6e5b5"
+        "GUID:f48a88687021943959a850c81ac6e5b5",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,6 +11,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "",
+            "define": "NEW_INPUT_SYSTEM_SUPPORT"
+        }
+    ],
     "noEngineReferences": false
 }
