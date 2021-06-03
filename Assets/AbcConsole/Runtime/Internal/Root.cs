@@ -31,8 +31,18 @@ namespace AbcConsole.Internal
 
             _ui = new AbcConsoleUiElements(GetComponentInChildren<UICache>());
             _ui.TriggerButton.onClick.AddListener(OnClickTriggerButton);
+            _ui.LogDetail.onClick.AddListener(() =>
+            {
+                _ui.LogDetail.gameObject.SetActive(false);
+            });
 
             Executor = new Executor();
+
+            State = ConsoleState.None;
+            _ui.Console.gameObject.SetActive(false);
+            _ui.LogRoot.SetActive(false);
+            _ui.InputRoot.SetActive(false);
+            _ui.LogDetail.gameObject.SetActive(false);
         }
 
         public void OnDestroy()
@@ -56,6 +66,7 @@ namespace AbcConsole.Internal
                 _ui.Console.gameObject.SetActive(true);
                 _ui.LogRoot.SetActive(true);
                 _ui.InputRoot.SetActive(true);
+                _ui.LogDetail.gameObject.SetActive(false);
             }
             else if (State == ConsoleState.Full)
             {
@@ -63,6 +74,7 @@ namespace AbcConsole.Internal
                 _ui.Console.gameObject.SetActive(true);
                 _ui.LogRoot.SetActive(false);
                 _ui.InputRoot.SetActive(true);
+                _ui.LogDetail.gameObject.SetActive(false);
             }
             else if (State == ConsoleState.Mini)
             {
@@ -70,6 +82,7 @@ namespace AbcConsole.Internal
                 _ui.Console.gameObject.SetActive(false);
                 _ui.LogRoot.SetActive(false);
                 _ui.InputRoot.SetActive(false);
+                _ui.LogDetail.gameObject.SetActive(false);
             }
         }
 

@@ -18,7 +18,9 @@ namespace AbcConsole.Internal
         public OnPointerDownButton PasteButton { get; private set; }
         public VerticalList<LogLineUiElements, LogDetailUiElements> Log { get; private set; }
         public Layout<AutocompleteItemUiElements> Autocomplete { get; private set; }
-        public RectTransform ViewArea { get; set; }
+        public RectTransform ViewArea { get; private set; }
+        public Button LogDetail { get; private set; }
+        public Text LogDetailText { get; private set; }
 
         public AbcConsoleUiElements(IMapper mapper)
         {
@@ -48,6 +50,8 @@ namespace AbcConsole.Internal
                 new BottomToTopLayouter(0f)
             );
             ViewArea = mapper.Get<RectTransform>("ViewArea");
+            LogDetail = mapper.Get<Button>("LogDetailScreen");
+            LogDetailText = mapper.Get<Text>("LogDetailScreen/Text");
         }
 
         public class AutocompleteItemUiElements : IReusableMappedObject
@@ -101,11 +105,13 @@ namespace AbcConsole.Internal
         public class LogDetailUiElements : IReusableMappedObject
         {
             public IMapper Mapper { get; private set; }
+            public Button DetailButton { get; private set; }
             public Button CopyButton { get; private set; }
 
             public void Initialize(IMapper mapper)
             {
                 Mapper = mapper;
+                DetailButton = mapper.Get<Button>("DetailButton");
                 CopyButton = mapper.Get<Button>("CopyButton");
             }
 
@@ -115,6 +121,7 @@ namespace AbcConsole.Internal
 
             public void Deactivate()
             {
+                DetailButton.onClick.RemoveAllListeners();
                 CopyButton.onClick.RemoveAllListeners();
             }
         }

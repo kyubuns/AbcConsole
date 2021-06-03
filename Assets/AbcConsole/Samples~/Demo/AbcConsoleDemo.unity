@@ -220,6 +220,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1628329296209478805, guid: dbaf8f1b5f85448b889de2ef8b5f22cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2244211959391475033, guid: dbaf8f1b5f85448b889de2ef8b5f22cc,
         type: 3}
       propertyPath: keyCode
