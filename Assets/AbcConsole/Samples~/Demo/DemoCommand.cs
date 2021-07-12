@@ -26,6 +26,15 @@ namespace AbcConsole.Demo
         }
 
         [AbcCommand]
+        public static void SpawnCube(string name)
+        {
+            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cube.name = name;
+
+            Debug.Log("Spawn Cube Success!");
+        }
+
+        [AbcCommand]
         public static void SetCubeColor(int r, int g, int b)
         {
             var cube = GameObject.Find("Cube");

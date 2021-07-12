@@ -25,8 +25,8 @@ namespace AbcConsole.Internal
         {
             var input = text.Split(' ').Select(x => x.Trim()).ToArray();
 
-            var method = _debugCommands.FirstOrDefault(x => string.Equals(x.MethodInfo.Name, input[0], StringComparison.OrdinalIgnoreCase));
-            if (method == null)
+            var methods = _debugCommands.Where(x => string.Equals(x.MethodInfo.Name, input[0], StringComparison.OrdinalIgnoreCase)).ToArray();
+            if (methods.Length == 0)
             {
                 Debug.Log($"{input[0]} is not found");
                 return false;
@@ -34,12 +34,13 @@ namespace AbcConsole.Internal
 
             var parameters = new List<object>();
             var args = input.Skip(1).ToList();
-            var parameterInfos = method.MethodInfo.GetParameters();
-            if (parameterInfos.Length != args.Count)
+            var method = methods.FirstOrDefault(x => x.MethodInfo.GetParameters().Length == args.Count);
+            if (method == null)
             {
-                Debug.Log($"{method.MethodInfo.Name} needs {parameterInfos.Length} parameters");
+                Debug.Log($"{methods[0].MethodInfo.Name} needs {string.Join(", ", methods.Select(x => x.MethodInfo.GetParameters().Length))} parameters");
                 return false;
             }
+            var parameterInfos = method.MethodInfo.GetParameters();
 
             foreach (var parameterInfo in parameterInfos)
             {
