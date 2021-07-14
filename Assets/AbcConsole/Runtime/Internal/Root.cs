@@ -15,6 +15,7 @@ namespace AbcConsole.Internal
         public int LogCount { get; private set; }
         public ConsoleState State { get; private set; } = ConsoleState.None;
         public Executor Executor { get; private set; }
+        public bool AutoOpenWhenError { get; set; }
 
         public const int MaxLogSize = 1000;
         public const int MaxAutocompleteSize = 10;
@@ -56,34 +57,54 @@ namespace AbcConsole.Internal
             _logs.Add(new Log(LogCount, condition, stacktrace, type));
             LogCount++;
             while (_logs.Count > MaxLogSize) _logs.RemoveAt(0);
+
+            if (AutoOpenWhenError && (type == LogType.Error || type == LogType.Assert || type == LogType.Exception))
+            {
+                ShowFullMode();
+            }
         }
 
         public void OnClickTriggerButton()
         {
             if (State == ConsoleState.None)
             {
-                State = ConsoleState.Full;
-                _ui.Console.gameObject.SetActive(true);
-                _ui.LogRoot.SetActive(true);
-                _ui.InputRoot.SetActive(true);
-                _ui.LogDetail.gameObject.SetActive(false);
+                ShowFullMode();
             }
             else if (State == ConsoleState.Full)
             {
-                State = ConsoleState.Mini;
-                _ui.Console.gameObject.SetActive(true);
-                _ui.LogRoot.SetActive(false);
-                _ui.InputRoot.SetActive(true);
-                _ui.LogDetail.gameObject.SetActive(false);
+                ShowMiniMode();
             }
             else if (State == ConsoleState.Mini)
             {
-                State = ConsoleState.None;
-                _ui.Console.gameObject.SetActive(false);
-                _ui.LogRoot.SetActive(false);
-                _ui.InputRoot.SetActive(false);
-                _ui.LogDetail.gameObject.SetActive(false);
+                Hide();
             }
+        }
+
+        public void ShowFullMode()
+        {
+            State = ConsoleState.Full;
+            _ui.Console.gameObject.SetActive(true);
+            _ui.LogRoot.SetActive(true);
+            _ui.InputRoot.SetActive(true);
+            _ui.LogDetail.gameObject.SetActive(false);
+        }
+
+        public void ShowMiniMode()
+        {
+            State = ConsoleState.Mini;
+            _ui.Console.gameObject.SetActive(true);
+            _ui.LogRoot.SetActive(false);
+            _ui.InputRoot.SetActive(true);
+            _ui.LogDetail.gameObject.SetActive(false);
+        }
+
+        public void Hide()
+        {
+            State = ConsoleState.None;
+            _ui.Console.gameObject.SetActive(false);
+            _ui.LogRoot.SetActive(false);
+            _ui.InputRoot.SetActive(false);
+            _ui.LogDetail.gameObject.SetActive(false);
         }
 
         public void ClearLogs()
@@ -103,6 +124,7 @@ namespace AbcConsole.Internal
     {
         ConsoleState State { get; }
         IReadOnlyList<Log> Logs { get; }
+        bool AutoOpenWhenError { get; set; }
         void ClearLogs();
     }
 
