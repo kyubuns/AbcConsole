@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AnKuchen.Map;
@@ -54,7 +55,7 @@ namespace AbcConsole.Internal
 
         private void ReceiveLogMessage(string condition, string stacktrace, LogType type)
         {
-            _logs.Add(new Log(LogCount, condition, stacktrace, type));
+            _logs.Add(new Log(LogCount, condition, stacktrace, type, DateTime.Now));
             LogCount++;
             while (_logs.Count > MaxLogSize) _logs.RemoveAt(0);
 
@@ -134,13 +135,15 @@ namespace AbcConsole.Internal
         public string Condition { get; }
         public string StackTrace { get; }
         public LogType Type { get; }
+        public DateTime DateTime { get; }
 
-        public Log(int id, string condition, string stackTrace, LogType type)
+        public Log(int id, string condition, string stackTrace, LogType type, DateTime dateTime)
         {
             Id = id;
             Condition = condition;
             StackTrace = stackTrace;
             Type = type;
+            DateTime = dateTime;
         }
     }
 

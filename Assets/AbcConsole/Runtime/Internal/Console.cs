@@ -250,7 +250,7 @@ namespace AbcConsole.Internal
                         {
                             x.DetailButton.onClick.AddListener(() =>
                             {
-                                _ui.LogDetailText.text = $"{log.Condition}\n---\n{log.StackTrace}";
+                                _ui.LogDetailText.text = $"{log.DateTime}\n{log.Condition}\n---\n{log.StackTrace}";
                                 _ui.LogDetail.gameObject.SetActive(true);
                             });
                             x.CopyButton.onClick.AddListener(() =>
