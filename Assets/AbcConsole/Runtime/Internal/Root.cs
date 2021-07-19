@@ -55,13 +55,15 @@ namespace AbcConsole.Internal
 
         private void ReceiveLogMessage(string condition, string stacktrace, LogType type)
         {
-            _logs.Add(new Log(LogCount, condition, stacktrace, type, DateTime.Now));
+            var item = new Log(LogCount, condition, stacktrace, type, DateTime.Now);
+            _logs.Add(item);
             LogCount++;
             while (_logs.Count > MaxLogSize) _logs.RemoveAt(0);
 
             if (AutoOpenWhenError && (type == LogType.Error || type == LogType.Assert || type == LogType.Exception))
             {
                 ShowFullMode();
+                _ui.Console.OpenDetailWindow(item);
             }
         }
 

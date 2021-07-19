@@ -250,8 +250,7 @@ namespace AbcConsole.Internal
                         {
                             x.DetailButton.onClick.AddListener(() =>
                             {
-                                _ui.LogDetailText.text = $"{log.DateTime}\n{log.Condition}\n---\n{log.StackTrace}";
-                                _ui.LogDetail.gameObject.SetActive(true);
+                                OpenDetailWindow(log);
                             });
                             x.CopyButton.onClick.AddListener(() =>
                             {
@@ -263,6 +262,12 @@ namespace AbcConsole.Internal
                     }
                 }
             }
+        }
+
+        public void OpenDetailWindow(Log log)
+        {
+            _ui.LogDetailText.text = $"{log.DateTime}\n{log.Condition}\n---\n{log.StackTrace}";
+            _ui.LogDetail.gameObject.SetActive(true);
         }
 
         private void OnInputFieldEndEdit()
