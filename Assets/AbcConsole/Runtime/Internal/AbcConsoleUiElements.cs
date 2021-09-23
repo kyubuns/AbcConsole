@@ -21,6 +21,7 @@ namespace AbcConsole.Internal
         public RectTransform ViewArea { get; private set; }
         public Button LogDetail { get; private set; }
         public Text LogDetailText { get; private set; }
+        public GameObject FpsCounterRoot { get; set; }
 
         public AbcConsoleUiElements(IMapper mapper)
         {
@@ -52,6 +53,7 @@ namespace AbcConsole.Internal
             ViewArea = mapper.Get<RectTransform>("ViewArea");
             LogDetail = mapper.Get<Button>("LogDetailScreen");
             LogDetailText = mapper.Get<Text>("LogDetailScreen/Text");
+            FpsCounterRoot = mapper.Get("FpsCounter");
         }
 
         public class AutocompleteItemUiElements : IReusableMappedObject

@@ -114,6 +114,12 @@ namespace AbcConsole.Internal
         {
             _logs.Clear();
         }
+
+        public bool FpcCounterEnabled
+        {
+            get => _ui.FpsCounterRoot.activeSelf;
+            set => _ui.FpsCounterRoot.SetActive(value);
+        }
     }
 
     public enum ConsoleState
@@ -128,6 +134,7 @@ namespace AbcConsole.Internal
         ConsoleState State { get; }
         IReadOnlyList<Log> Logs { get; }
         bool AutoOpenWhenError { get; set; }
+        bool FpcCounterEnabled { get; set; }
         void ClearLogs();
     }
 

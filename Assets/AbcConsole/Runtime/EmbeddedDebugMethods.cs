@@ -9,5 +9,11 @@ namespace AbcConsole
         {
             Root.CurrentInstance.ClearLogs();
         }
+
+        [AbcCommand]
+        public static void FpsCounter()
+        {
+            Root.CurrentInstance.FpcCounterEnabled = !Root.CurrentInstance.FpcCounterEnabled;
+        }
     }
 }
