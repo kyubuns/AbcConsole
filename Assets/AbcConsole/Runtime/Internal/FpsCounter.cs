@@ -43,6 +43,24 @@ namespace AbcConsole.Internal
 
                 content.Append("\n");
 
+                var cpuTimeTotal = 0.0;
+                for (var i = 0; i < framesCount; ++i) cpuTimeTotal += _frames[i].CpuTime;
+                if (cpuTimeTotal > 0.01)
+                {
+                    content.Append("CPU: ");
+                    content.AppendFormat("{0:0}ms", cpuTimeTotal / framesCount);
+                    content.Append("\n");
+                }
+
+                var gpuTimeTotal = 0.0;
+                for (var i = 0; i < framesCount; ++i) gpuTimeTotal += _frames[i].GpuTime;
+                if (gpuTimeTotal > 0.01)
+                {
+                    content.Append("GPU: ");
+                    content.AppendFormat("{0:0}ms", gpuTimeTotal / framesCount);
+                    content.Append("\n");
+                }
+
                 content.Append("Memory:");
                 content.Append("\n");
 
@@ -75,11 +93,18 @@ namespace AbcConsole.Internal
             }
         }
 
+        private readonly FrameTiming[] _frameTimings = new FrameTiming[1];
         private FrameData Get()
         {
+            FrameTimingManager.CaptureFrameTimings();
+            var numFrames = FrameTimingManager.GetLatestTimings((uint) _frameTimings.Length, _frameTimings);
+            if (numFrames == 0) _frameTimings[0] = new FrameTiming();
+
             return new FrameData
             {
                 DeltaTime = Time.unscaledDeltaTime,
+                CpuTime = _frameTimings[0].cpuFrameTime,
+                GpuTime = _frameTimings[0].gpuFrameTime,
                 TotalReservedMemory = Profiler.GetTotalReservedMemoryLong() / 1024f / 1024f,
                 TotalAllocatedMemory = Profiler.GetTotalAllocatedMemoryLong() / 1024f / 1024f,
                 AllocatedMemoryForGraphicsDriver = Profiler.GetAllocatedMemoryForGraphicsDriver() / 1024f / 1024f,
@@ -90,6 +115,8 @@ namespace AbcConsole.Internal
     public struct FrameData
     {
         public float DeltaTime { get; set; }
+        public double CpuTime { get; set; }
+        public double GpuTime { get; set; }
         public float TotalReservedMemory { get; set; }
         public float TotalAllocatedMemory { get; set; }
         public float AllocatedMemoryForGraphicsDriver { get; set; }
