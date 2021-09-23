@@ -62,7 +62,7 @@ public static class OriginalCommand
 
 The FPS Counter is included in AbcConsole.  
 You can view it by typing [FpsCounter] in the Console.  
-In an environment where FrameTimingManager is enabled, more detailed information will be displayed.
+In an environment where [FrameTimingManager](https://docs.unity3d.com/ja/2020.3/ScriptReference/PlayerSettings-enableFrameTimingStats.html) is enabled, more detailed information will be displayed.
 
 <img width="843" alt="Screen Shot 2021-09-23 at 18 14 31" src="https://user-images.githubusercontent.com/961165/134482324-54f68469-5ed0-4f0c-891c-693078391f1a.png">
 
