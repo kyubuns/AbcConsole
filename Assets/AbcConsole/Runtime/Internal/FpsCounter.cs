@@ -47,28 +47,28 @@ namespace AbcConsole.Internal
                 content.Append("\n");
 
                 {
-                    var total = 0.0;
-                    for (var i = 0; i < framesCount; ++i) total += _frames[i].TotalAllocatedMemory;
-                    content.Append("  Allocated: ");
-                    content.AppendFormat("{0:0}MB", total / 1024 / 1024);
-                }
-
-                content.Append("\n");
-
-                {
-                    var total = 0.0;
+                    var total = 0f;
                     for (var i = 0; i < framesCount; ++i) total += _frames[i].TotalReservedMemory;
                     content.Append("  Reserved: ");
-                    content.AppendFormat("{0:0}MB", total / 1024 / 1024);
+                    content.AppendFormat("{0:0}MB", total / framesCount);
                 }
 
                 content.Append("\n");
 
                 {
-                    var total = 0.0;
+                    var total = 0f;
+                    for (var i = 0; i < framesCount; ++i) total += _frames[i].TotalAllocatedMemory;
+                    content.Append("  Allocated: ");
+                    content.AppendFormat("{0:0}MB", total / framesCount);
+                }
+
+                content.Append("\n");
+
+                {
+                    var total = 0f;
                     for (var i = 0; i < framesCount; ++i) total += _frames[i].AllocatedMemoryForGraphicsDriver;
                     content.Append("  Allocated(GPU): ");
-                    content.AppendFormat("{0:0}MB", total / 1024 / 1024);
+                    content.AppendFormat("{0:0}MB", total / framesCount);
                 }
 
                 text.text = content.ToString();
@@ -80,9 +80,9 @@ namespace AbcConsole.Internal
             return new FrameData
             {
                 DeltaTime = Time.unscaledDeltaTime,
-                AllocatedMemoryForGraphicsDriver = Profiler.GetAllocatedMemoryForGraphicsDriver(),
-                TotalAllocatedMemory = Profiler.GetTotalAllocatedMemoryLong(),
-                TotalReservedMemory = Profiler.GetTotalReservedMemoryLong(),
+                TotalReservedMemory = Profiler.GetTotalReservedMemoryLong() / 1024f / 1024f,
+                TotalAllocatedMemory = Profiler.GetTotalAllocatedMemoryLong() / 1024f / 1024f,
+                AllocatedMemoryForGraphicsDriver = Profiler.GetAllocatedMemoryForGraphicsDriver() / 1024f / 1024f,
             };
         }
     }
@@ -90,8 +90,8 @@ namespace AbcConsole.Internal
     public struct FrameData
     {
         public float DeltaTime { get; set; }
-        public long AllocatedMemoryForGraphicsDriver { get; set; }
-        public long TotalAllocatedMemory { get; set; }
-        public long TotalReservedMemory { get; set; }
+        public float TotalReservedMemory { get; set; }
+        public float TotalAllocatedMemory { get; set; }
+        public float AllocatedMemoryForGraphicsDriver { get; set; }
     }
 }
