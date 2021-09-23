@@ -48,7 +48,7 @@ namespace AbcConsole.Internal
                 if (cpuTimeTotal > 0.01)
                 {
                     content.Append("CPU: ");
-                    content.AppendFormat("{0:0}ms", cpuTimeTotal / framesCount);
+                    content.AppendFormat("{0:0.00}ms", cpuTimeTotal / framesCount);
                     content.Append("\n");
                 }
 
@@ -57,7 +57,7 @@ namespace AbcConsole.Internal
                 if (gpuTimeTotal > 0.01)
                 {
                     content.Append("GPU: ");
-                    content.AppendFormat("{0:0}ms", gpuTimeTotal / framesCount);
+                    content.AppendFormat("{0:0.00}ms", gpuTimeTotal / framesCount);
                     content.Append("\n");
                 }
 
