@@ -38,7 +38,7 @@ You can open the AbcConsole in the upper left button.
 
 ### Define debug command
 
-All you have to do is define the method with the AbcCommand Attribute.
+All you have to do is define the method with the AbcCommand Attribute.  
 Primitive types can be used as arguments.
 
 ```csharp
@@ -57,6 +57,14 @@ public static class OriginalCommand
     }
 }
 ```
+
+### FPS Counter
+
+The FPS Counter is included in AbcConsole.  
+You can view it by typing [FpsCounter] in the Console.  
+In an environment where FrameTimingManager is enabled, more detailed information will be displayed.
+
+<img width="843" alt="Screen Shot 2021-09-23 at 18 14 31" src="https://user-images.githubusercontent.com/961165/134482324-54f68469-5ed0-4f0c-891c-693078391f1a.png">
 
 ## FAQ
 
