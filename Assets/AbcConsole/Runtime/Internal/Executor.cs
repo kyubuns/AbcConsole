@@ -47,10 +47,18 @@ namespace AbcConsole.Internal
                 var type = parameterInfo.ParameterType;
                 if (type.IsPrimitive)
                 {
-                    var value = args.Count > 0
-                        ? TypeDescriptor.GetConverter(type).ConvertFromString(args[0])
-                        : Activator.CreateInstance(type);
-                    parameters.Add(value);
+                    try
+                    {
+                        var value = args.Count > 0
+                            ? TypeDescriptor.GetConverter(type).ConvertFromString(args[0])
+                            : Activator.CreateInstance(type);
+                        parameters.Add(value);
+                    }
+                    catch (FormatException formatException)
+                    {
+                        Debug.Log($"parse error: {args[0]} / {formatException.Message}");
+                        return false;
+                    }
                 }
                 else if (type == typeof(string))
                 {
