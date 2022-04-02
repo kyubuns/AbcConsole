@@ -17,6 +17,7 @@ namespace AbcConsole.Internal
         public ConsoleState State { get; private set; } = ConsoleState.None;
         public Executor Executor { get; private set; }
         public bool AutoOpenWhenError { get; set; }
+        public Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
 
         public const int MaxLogSize = 1000;
         public const int MaxAutocompleteSize = 10;
@@ -60,10 +61,15 @@ namespace AbcConsole.Internal
             LogCount++;
             while (_logs.Count > MaxLogSize) _logs.RemoveAt(0);
 
-            if (AutoOpenWhenError && (type == LogType.Error || type == LogType.Assert || type == LogType.Exception))
+            if (type == LogType.Error || type == LogType.Assert || type == LogType.Exception)
             {
-                ShowFullMode();
-                _ui.Console.OpenDetailWindow(item);
+                if (AutoOpenWhenError)
+                {
+                    ShowFullMode();
+                    _ui.Console.OpenDetailWindow(item);
+                }
+
+                ErrorCallback?.Invoke(_logs);
             }
         }
 
@@ -133,6 +139,7 @@ namespace AbcConsole.Internal
     {
         ConsoleState State { get; }
         IReadOnlyList<Log> Logs { get; }
+        Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
         bool AutoOpenWhenError { get; set; }
         bool FpcCounterEnabled { get; set; }
         void ClearLogs();

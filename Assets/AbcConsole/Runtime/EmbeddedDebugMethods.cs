@@ -15,5 +15,11 @@ namespace AbcConsole
         {
             Root.CurrentInstance.FpcCounterEnabled = !Root.CurrentInstance.FpcCounterEnabled;
         }
+
+        [AbcCommand]
+        public static void CallErrorCallback()
+        {
+            UnityEngine.Debug.LogError("DebugMethod CallErrorCallback");
+        }
     }
 }
