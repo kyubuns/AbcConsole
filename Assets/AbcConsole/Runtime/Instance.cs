@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AbcConsole.Internal;
+using UnityEngine;
 
 namespace AbcConsole
 {
@@ -29,5 +30,30 @@ namespace AbcConsole
         }
 
         public static void ClearLogs() => Root.CurrentInstance.ClearLogs();
+    }
+
+    public enum ConsoleState
+    {
+        None,
+        Full,
+        Mini,
+    }
+
+    public class Log
+    {
+        public int Id { get; }
+        public string Condition { get; }
+        public string StackTrace { get; }
+        public LogType Type { get; }
+        public DateTime DateTime { get; }
+
+        public Log(int id, string condition, string stackTrace, LogType type, DateTime dateTime)
+        {
+            Id = id;
+            Condition = condition;
+            StackTrace = stackTrace;
+            Type = type;
+            DateTime = dateTime;
+        }
     }
 }

@@ -76,7 +76,7 @@ namespace AbcConsole.Internal
             return true;
         }
 
-        public DebugCommand[] GetAutocomplete(string text)
+        internal DebugCommand[] GetAutocomplete(string text)
         {
             var input = text.Split(' ').Select(x => x.Trim()).ToArray();
             if (input.Length == 0 || string.IsNullOrWhiteSpace(input[0])) return new DebugCommand[] { };

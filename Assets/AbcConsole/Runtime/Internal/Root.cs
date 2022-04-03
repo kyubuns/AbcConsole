@@ -7,20 +7,20 @@ using UnityEngine;
 
 namespace AbcConsole.Internal
 {
-    public class Root : MonoBehaviour, IRoot
+    internal class Root : MonoBehaviour
     {
-        public static IRoot CurrentInstance => _currentInstance;
+        internal static Root CurrentInstance => _currentInstance;
         private static Root _currentInstance;
 
-        public IReadOnlyList<Log> Logs => _logs;
-        public int LogCount { get; private set; }
-        public ConsoleState State { get; private set; } = ConsoleState.None;
-        public Executor Executor { get; private set; }
-        public bool AutoOpenWhenError { get; set; }
-        public Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
+        internal IReadOnlyList<Log> Logs => _logs;
+        internal int LogCount { get; private set; }
+        internal ConsoleState State { get; private set; } = ConsoleState.None;
+        internal Executor Executor { get; private set; }
+        internal bool AutoOpenWhenError { get; set; }
+        internal Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
 
-        public const int MaxLogSize = 1000;
-        public const int MaxAutocompleteSize = 10;
+        internal const int MaxLogSize = 1000;
+        internal const int MaxAutocompleteSize = 10;
 
         private AbcConsoleUiElements _ui;
         private readonly List<Log> _logs = new List<Log>(MaxLogSize);
@@ -128,42 +128,7 @@ namespace AbcConsole.Internal
         }
     }
 
-    public enum ConsoleState
-    {
-        None,
-        Full,
-        Mini,
-    }
-
-    public interface IRoot
-    {
-        ConsoleState State { get; }
-        IReadOnlyList<Log> Logs { get; }
-        Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
-        bool AutoOpenWhenError { get; set; }
-        bool FpcCounterEnabled { get; set; }
-        void ClearLogs();
-    }
-
-    public class Log
-    {
-        public int Id { get; }
-        public string Condition { get; }
-        public string StackTrace { get; }
-        public LogType Type { get; }
-        public DateTime DateTime { get; }
-
-        public Log(int id, string condition, string stackTrace, LogType type, DateTime dateTime)
-        {
-            Id = id;
-            Condition = condition;
-            StackTrace = stackTrace;
-            Type = type;
-            DateTime = dateTime;
-        }
-    }
-
-    public class DebugCommand
+    internal class DebugCommand
     {
         public string LowerMethodName { get; }
         public MethodInfo MethodInfo { get; }
