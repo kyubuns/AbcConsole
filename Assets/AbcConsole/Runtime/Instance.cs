@@ -30,6 +30,13 @@ namespace AbcConsole
         }
 
         public static void ClearLogs() => Root.CurrentInstance.ClearLogs();
+
+        public static void Trigger() => Root.CurrentInstance.OnClickTriggerButton();
+        public static void ShowFullMode() => Root.CurrentInstance.ShowFullMode();
+        public static void ShowMiniMode() => Root.CurrentInstance.ShowMiniMode();
+        public static void Hide() => Root.CurrentInstance.Hide();
+
+        public static GameObject GetRootObject() => Root.CurrentInstance.gameObject;
     }
 
     public enum ConsoleState
