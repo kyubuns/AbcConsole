@@ -1,3 +1,4 @@
+using System.Linq;
 using AnKuchen.KuchenList;
 using AnKuchen.Map;
 using UnityEngine;
@@ -205,7 +206,7 @@ namespace AbcConsole.Internal
 
             using (var editor = _ui.Log.Edit())
             {
-                foreach (var log in _root.Logs)
+                foreach (var log in _root.Logs.ToArray())
                 {
                     editor.Contents.Add(new UIFactory<AbcConsoleUiElements.LogLineUiElements, AbcConsoleUiElements.LogDetailUiElements>(x =>
                     {
