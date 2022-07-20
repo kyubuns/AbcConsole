@@ -54,10 +54,21 @@ namespace AbcConsole.Internal
                             : Activator.CreateInstance(type);
                         parameters.Add(value);
                     }
-                    catch (FormatException formatException)
+                    catch (Exception e)
                     {
-                        Debug.Log($"parse error: {args[0]} / {formatException.Message}");
-                        return false;
+                        if (e is FormatException e1)
+                        {
+                            Debug.Log($"parse error: {args[0]} / {e1.Message}");
+                            return false;
+                        }
+
+                        if (e.InnerException is FormatException e2)
+                        {
+                            Debug.Log($"parse error: {args[0]} / {e.Message} / {e2.Message}");
+                            return false;
+                        }
+
+                        throw;
                     }
                 }
                 else if (type == typeof(string))
