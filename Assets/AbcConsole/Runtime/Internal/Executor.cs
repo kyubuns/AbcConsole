@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -45,26 +44,35 @@ namespace AbcConsole.Internal
             foreach (var parameterInfo in parameterInfos)
             {
                 var type = parameterInfo.ParameterType;
+                var value = args[0];
                 if (type.IsPrimitive)
                 {
                     try
                     {
-                        var value = args.Count > 0
-                            ? TypeDescriptor.GetConverter(type).ConvertFromString(args[0])
-                            : Activator.CreateInstance(type);
-                        parameters.Add(value);
+                        if (type == typeof(Boolean)) parameters.Add(Boolean.Parse(value));
+                        if (type == typeof(Byte)) parameters.Add(Byte.Parse(value));
+                        if (type == typeof(SByte)) parameters.Add(SByte.Parse(value));
+                        if (type == typeof(Int16)) parameters.Add(Int16.Parse(value));
+                        if (type == typeof(UInt16)) parameters.Add(UInt16.Parse(value));
+                        if (type == typeof(Int32)) parameters.Add(Int32.Parse(value));
+                        if (type == typeof(UInt32)) parameters.Add(UInt32.Parse(value));
+                        if (type == typeof(Int64)) parameters.Add(Int64.Parse(value));
+                        if (type == typeof(UInt64)) parameters.Add(UInt64.Parse(value));
+                        if (type == typeof(Char)) parameters.Add(Char.Parse(value));
+                        if (type == typeof(Double)) parameters.Add(Double.Parse(value));
+                        if (type == typeof(Single)) parameters.Add(Single.Parse(value));
                     }
                     catch (Exception e)
                     {
                         if (e is FormatException e1)
                         {
-                            Debug.Log($"parse error: {args[0]} / {e1.Message}");
+                            Debug.Log($"parse error: {value} / {e1.Message}");
                             return false;
                         }
 
                         if (e.InnerException is FormatException e2)
                         {
-                            Debug.Log($"parse error: {args[0]} / {e.Message} / {e2.Message}");
+                            Debug.Log($"parse error: {value} / {e.Message} / {e2.Message}");
                             return false;
                         }
 
@@ -73,7 +81,7 @@ namespace AbcConsole.Internal
                 }
                 else if (type == typeof(string))
                 {
-                    parameters.Add(args.Count > 0 ? args[0] : default);
+                    parameters.Add(args.Count > 0 ? value : default);
                 }
                 else
                 {
