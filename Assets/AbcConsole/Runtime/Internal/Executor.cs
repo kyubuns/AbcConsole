@@ -79,6 +79,30 @@ namespace AbcConsole.Internal
                         throw;
                     }
                 }
+                else if (type.IsEnum)
+                {
+                    try
+                    {
+                        if (Int32.TryParse(value, out var i))
+                        {
+                            parameters.Add(i);
+                        }
+                        else
+                        {
+                            parameters.Add(Enum.Parse(type, value, true));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is ArgumentException e1)
+                        {
+                            Debug.Log($"enum parse error: {value} / {e1.Message}");
+                            return false;
+                        }
+
+                        throw;
+                    }
+                }
                 else if (type == typeof(string))
                 {
                     parameters.Add(args.Count > 0 ? value : default);
