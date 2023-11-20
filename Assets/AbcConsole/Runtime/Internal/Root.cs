@@ -24,6 +24,13 @@ namespace AbcConsole.Internal
 
         private AbcConsoleUiElements _ui;
         private readonly List<Log> _logs = new List<Log>(MaxLogSize);
+        private static int _mainThreadId;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void Init()
+        {
+            _mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+        }
 
         public void Awake()
         {
@@ -63,7 +70,7 @@ namespace AbcConsole.Internal
 
             if (type == LogType.Error || type == LogType.Assert || type == LogType.Exception)
             {
-                if (AutoOpenWhenError)
+                if (AutoOpenWhenError && System.Threading.Thread.CurrentThread.ManagedThreadId == _mainThreadId)
                 {
                     ShowFullMode();
                     _ui.Console.OpenDetailWindow(item);
