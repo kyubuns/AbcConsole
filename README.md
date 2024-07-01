@@ -1,8 +1,6 @@
 # AbcConsole
 Mobile-friendly debug console!
 
-<a href="https://www.buymeacoffee.com/kyubuns" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-
 ![output](https://user-images.githubusercontent.com/961165/108616000-c10b1e80-744c-11eb-9fed-af97f620c6b7.gif)
 
 ## Features
