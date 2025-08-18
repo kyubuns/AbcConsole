@@ -15,7 +15,17 @@ namespace AbcConsole.Internal
             var allMethods = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
                 .SelectMany(x => x.GetMethods(BindingFlags.Public | BindingFlags.Static))
-                .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(AbcCommandAttribute)));
+                .Where(x =>
+                {
+                    try
+                    {
+                        return x.CustomAttributes.Any(y => y.AttributeType == typeof(AbcCommandAttribute));
+                    }
+                    catch (System.IO.FileNotFoundException e)
+                    {
+                        return false;
+                    }
+                });
 
             _debugCommands = allMethods.Select(x => new DebugCommand(x, x.GetCustomAttribute<AbcCommandAttribute>())).ToList();
         }
