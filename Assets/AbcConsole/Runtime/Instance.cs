@@ -36,6 +36,8 @@ namespace AbcConsole
         public static void ShowMiniMode() => Root.CurrentInstance.ShowMiniMode();
         public static void Hide() => Root.CurrentInstance.Hide();
 
+        public static void Execute(string text) => Root.CurrentInstance.Executor.ExecuteMethod(text);
+
         public static GameObject GetRootObject() => Root.CurrentInstance.gameObject;
     }
 
