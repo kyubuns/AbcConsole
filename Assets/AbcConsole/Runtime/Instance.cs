@@ -29,6 +29,12 @@ namespace AbcConsole
             set => Root.CurrentInstance.FpcCounterEnabled = value;
         }
 
+        public static HashSet<string> AutoOpenIgnore
+        {
+            get => Root.CurrentInstance.AutoOpenIgnore;
+            set => Root.CurrentInstance.AutoOpenIgnore = value;
+        }
+
         public static void ClearLogs() => Root.CurrentInstance.ClearLogs();
 
         public static void Trigger() => Root.CurrentInstance.OnClickTriggerButton();

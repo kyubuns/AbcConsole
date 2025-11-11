@@ -17,6 +17,7 @@ namespace AbcConsole.Internal
         internal ConsoleState State { get; private set; } = ConsoleState.None;
         internal Executor Executor { get; private set; }
         internal bool AutoOpenWhenError { get; set; }
+        internal HashSet<string> AutoOpenIgnore { get; set; } = new();
         internal Action<IReadOnlyList<Log>> ErrorCallback { get; set; }
 
         internal const int MaxLogSize = 1000;
@@ -70,7 +71,7 @@ namespace AbcConsole.Internal
 
             if (type == LogType.Error || type == LogType.Assert || type == LogType.Exception)
             {
-                if (AutoOpenWhenError && System.Threading.Thread.CurrentThread.ManagedThreadId == _mainThreadId)
+                if (AutoOpenWhenError && !AutoOpenIgnore.Contains(condition) && System.Threading.Thread.CurrentThread.ManagedThreadId == _mainThreadId)
                 {
                     ShowFullMode();
                     _ui.Console.OpenDetailWindow(item);
