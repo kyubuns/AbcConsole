@@ -1,5 +1,6 @@
 {
     "name": "AbcConsole",
+    "rootNamespace": "",
     "references": [
         "GUID:f48a88687021943959a850c81ac6e5b5",
         "GUID:75469ad4d38634e559750d17036d5f7c"
@@ -10,7 +11,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "UNITY_EDITOR || DEVELOPMENT_BUILD"
+    ],
     "versionDefines": [
         {
             "name": "com.unity.inputsystem",
